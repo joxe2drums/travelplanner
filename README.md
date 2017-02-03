@@ -1,44 +1,43 @@
 # \<travelplaner\>
 
-## Pasos previos
+## Instalación
 
-<p>Para poder instalar Polymer CLI y descargar los componentes, debemos tener instalado lo siguiente:</p>
-<ul>
-<li>[Node.js](https://nodejs.org/en/download/)</li>
-<li>[Bower](https://bower.io/)</li>
-</ul>
-
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
-
-## Viewing Your Application
-
+Para poder instalar Polymer CLI y descargar los componentes, debemos hacer lo siguiente:
+1. Instalar [Git](https://git-scm.com/downloads).
+2. Instalar la **versión LTS** de [Node.js](https://nodejs.org/es/download/).
+3. Instalar la última versión de [Bower](https://bower.io/).
 ```
-$ polymer serve
+npm install -g bower
+```
+4. Instalar [Polymer CLI](https://www.npmjs.com/package/polymer-cli).
+```
+npm install -g polymer-cli
 ```
 
-## Building Your Application
+## Ver la aplicación
 
 ```
-$ polymer build
+polymer serve
 ```
 
-This will create a `build/` folder with `bundled/` and `unbundled/` sub-folders
-containing a bundled (Vulcanized) and unbundled builds, both run through HTML,
-CSS, and JS optimizers.
-
-You can serve the built versions by giving `polymer serve` a folder to serve
-from:
+## Buildear la aplicación
 
 ```
-$ polymer serve build/bundled
+polymer build
 ```
 
-## Running Tests
+Esto creará una carpeta `build/` con las sub-carpetas `bundled/` y `unbundled/` que contienen las versiones empaquetadas (bundled) y desempaquetadas (unbundled), ambos con optimizaciones de HTML, CSS, y Javascript.
+
+Puedes servir la versión buildeada indicando a `polymer serve` una carpeta desde la que servir:
 
 ```
-$ polymer test
+polymer serve build/bundled
 ```
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+## Ejecutando Tests
+
+```
+polymer test
+```
+
+La aplicación está preparada para ser testeada via [web-component-tester](https://github.com/Polymer/web-component-tester). Ejecuta `polymer test` para ejecutar los test localmente.
