@@ -21,6 +21,7 @@ Para poder instalar Polymer CLI y descargar los componentes, debemos hacer lo si
 cd [ruta de la app]
 polymer serve
 ```
+Por defecto, la aplicación se sirve en `localhost:8080`,
 
 ## Buildear la aplicación
 
