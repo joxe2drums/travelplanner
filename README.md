@@ -1,6 +1,12 @@
 # \<travelplaner\>
 
+## Pasos previos
 
+<p>Para poder instalar Polymer CLI y descargar los componentes, debemos tener instalado lo siguiente:</p>
+<ul>
+<li>[Node.js](https://nodejs.org/en/download/)</li>
+<li>[Bower](https://bower.io/)</li>
+</ul>
 
 ## Install the Polymer-CLI
 
