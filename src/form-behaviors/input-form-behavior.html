@@ -1,0 +1,36 @@
+<!doctype html>
+<link rel="import" href="../polymer/polymer.html">
+<script>
+    var Polymer = Polymer || {};
+
+    Polymer.InputFormBehavior = {
+        properties: {
+            label: String,
+            disabled: {
+                type: Boolean,
+                value: false
+            },
+            required: {
+                type: Boolean,
+                value: false
+            },
+            autoValidate: {
+                type: Boolean,
+                value: false
+            },
+            errorMessage: {
+                type: String,
+                value: ""
+            },
+            invalid: {
+                type: Boolean,
+                value: false
+            }
+        },
+
+        validate: function() {
+            this.$.input.validate();
+        }
+    };
+
+</script>

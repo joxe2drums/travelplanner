@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es_ES">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="imports.html">
+
+    <title>Test</title>
+</head>
+
+<style is="custom-style">
+    paper-button.indigo {
+        background-color: var(--paper-indigo-500);
+        color: white;
+        --paper-button-raised-keyboard-focus: {
+            background-color: var(--paper-pink-a200) !important;
+            color: white !important;
+        }
+    }
+    
+    paper-button.green {
+        background-color: var(--paper-green-500);
+        color: white;
+    }
+    
+    paper-button.green[active] {
+        background-color: var(--paper-red-500);
+    }
+    
+    paper-button.disabled {
+        color: white;
+    }
+
+</style>
+
+<body>
+    <google-maps-input label="Ciudad salida" id="ciudad_salida" types='["geocode"]'></google-maps-input>
+    <google-maps-input label="Ciudad destino" id="ciudad_destino" types='["geocode"]'></google-maps-input>
+
+    <paper-date-picker-item id="fechaIda" placeholder="Fecha de ida" locale="es" date-format="LL"></paper-date-picker-item>
+    <paper-date-picker-item id="fechaVuelta" placeholder="Fecha de vuelta" locale="es" date-format="LL"></paper-date-picker-item>
+
+    <paper-input id="personas" type="number" label="Personas"></paper-input>
+
+    <br/>
+
+    <paper-button raised class="indigo" onclick="buscarVuelos()">
+        <iron-icon icon="flight-takeoff"></iron-icon>&nbsp;Buscar vuelos
+    </paper-button>
+    <paper-button raised class="indigo" onclick="buscarHostales()">
+        <iron-icon icon="maps:hotel"></iron-icon>&nbsp;Buscar hostales
+    </paper-button>
+
+</body>
+
+<script type="text/javascript" src="script/script.js"></script>
+
+</html>

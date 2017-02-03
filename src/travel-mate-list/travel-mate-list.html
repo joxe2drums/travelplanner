@@ -1,0 +1,73 @@
+<link rel="import" href="/bower_components/iron-list/iron-list.html">
+<link rel="import" href="/bower_components/paper-item/paper-item.html">
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+<dom-module id="travel-mate-list">
+    <template>
+
+        <style is="custom-style">
+            iron-list paper-icon-button {
+                width: 35px;
+                height: 35px;
+                --paper-icon-button-ink-color: var(--paper-red-a400);
+                color: var(--paper-red-a700);
+            }
+            
+            app-toolbar {
+                font-family: Roboto, Noto, sans-serif;
+                background-color: var(--primary-color);
+                color: var(--dark-theme-text-color);
+                font-weight: 300;
+            }
+
+        </style>
+
+        <app-toolbar>
+            <div main-title>Personas</div>
+            <paper-icon-button icon="add"></paper-icon-button>
+        </app-toolbar>
+
+        <iron-list id="list" items="[[mates]]" as="mate">
+            <template>
+                <div>
+                    <paper-item tabIndex="-1">
+                        <paper-item-body>
+                            [[mate.name]]
+                        </paper-item-body>
+                        <paper-icon-button tabIndex="0" icon="close" on-tap="deleteMate"></paper-icon-button>
+                    </paper-item>
+                </div>
+            </template>
+        </iron-list>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'travel-mate-list',
+
+            properties: {
+                mates: {
+                    type: Array,
+                    value: []
+                }
+            },
+
+            attached: function() {
+
+            },
+
+            deleteMate: function(e) {
+                console.log(e)
+            },
+            
+            render: function() {
+                this.$.list.fire('iron-resize');
+            }
+
+        });
+
+    </script>
+</dom-module>

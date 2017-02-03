@@ -1,0 +1,63 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/google-apis/google-maps-api.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="google-maps-api-behaviors.html">
+<link rel="import" href="/src/form-behaviors/input-form-behavior.html">
+
+<dom-module id="google-maps-input">
+    <template>
+        <style>
+
+
+        </style>
+
+        <google-maps-api api-key="[[apiKey]]" version="3.exp"></google-maps-api>
+        <paper-input id="input" label="{{label}}" disabled="[[disabled]]" invalid="{{invalid}}"
+                     required="[[required]]" auto-validate="[[autoValidate]]" error-message="[[errorMessage]]"></paper-input>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'google-maps-input',
+
+            properties: {
+                input: {
+                    type: Object
+                },
+                types: {
+                    type: Array,
+                    value: []
+                }
+            },
+            
+            
+
+            behaviors: [
+                Polymer.GoogleMapsApiBehaviors,
+                Polymer.InputFormBehavior
+            ],
+            
+            attached: function() {
+                var that = this;
+                var mapsAPI = document.querySelector('google-maps-api');
+                mapsAPI.addEventListener('api-load', function(e) {
+                    that.input = new google.maps.places.Autocomplete(that.$.input.inputElement, {
+                        types: that.types
+                    });
+                    that.input.addListener('place_changed', function(e, detail) {
+                        that.fire('place_changed', {
+                            place: that.getPlace()
+                        });
+                    });
+                });
+            },
+
+            getPlace: function() {
+                return this.input.getPlace();
+            }
+        });
+
+    </script>
+</dom-module>

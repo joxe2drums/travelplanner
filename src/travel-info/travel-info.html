@@ -1,0 +1,298 @@
+<link rel="import" href="/src/google-maps/google-maps-input.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/bower_components/iron-icons/editor-icons.html">
+<link rel="import" href="/bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="/bower_components/paper-date-picker-item/paper-date-picker-item.html">
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="/bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="/bower_components/paper-date-picker-item/paper-date-picker-item.html">
+<link rel="import" href="/src/paper-date-input/paper-date-input.html">
+
+<dom-module id="travel-info">
+    <template>
+
+        <style is="custom-style">
+            :host {
+                --paper-input-container-color: var(--travel-info-form-color, --secondary-text-color);
+                --paper-input-container-focus-color: var(--travel-info-form-accent-color, --primary-color);
+                --paper-input-container-input-color: var(--travel-info-form-value-color, --primary-text-color);
+                --paper-input-container-invalid-color: var(--travel-info-form-invalid-color, --error-color);
+                --paper-input-container-disabled: {
+                    opacity: 1;
+                }
+                --paper-input-container-underline-disabled: {
+                    display: none;
+                }
+            }
+            
+            app-toolbar {
+                font-family: Roboto, Noto, sans-serif;
+                background-color: var(--primary-color);
+                color: var(--dark-theme-text-color);
+                font-weight: 300;
+            }
+            
+            .flex-vertical {
+                @apply(--layout-vertical);
+            }
+            
+            .flexchild-vertical {
+                @apply(--layout-flex);
+            }
+            
+            .container.main {
+                margin: 20px;
+                background: var(--travel-info-background, transparent);
+                height: var(--travel-info-height);
+            }
+            
+            #actions {
+                margin-top: 20px
+            }
+            
+            #actions > paper-button {
+                margin-bottom: 12px;
+                --paper-button: {
+                    background-color: var(--travel-info-button-color, --primary-color);
+                    color: white;
+                }
+                --paper-button-raised-keyboard-focus: {
+                    background-color: var(--travel-info-button-accent, --accent-color) !important;
+                    color: white !important;
+                }
+            }
+            
+            paper-date-input {
+                --button-color: var(--dark-theme-text-color)
+            }
+
+        </style>
+
+        <app-toolbar>
+            <div main-title>Datos del viaje</div>
+            <paper-icon-button icon="[[headerIcon]]" on-tap="toggleEditMode"></paper-icon-button>
+        </app-toolbar>
+
+        <div class="container main flex-vertical">
+
+            <google-maps-input label="Ciudad salida" id="ciudad_salida" types='["geocode"]' disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la ciudad de salida"></google-maps-input>
+            <google-maps-input label="Ciudad destino" id="ciudad_destino" types='["geocode"]' disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la ciudad de destino"></google-maps-input>
+<!--
+
+            <paper-date-picker-item id="fecha_ida" placeholder="Fecha de ida" locale="es" date-format="LL" disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la fecha de ida" date="{{fechaIda}}"></paper-date-picker-item>
+            <paper-date-picker-item id="fecha_vuelta" placeholder="Fecha de vuelta" locale="es" date-format="LL" disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la fecha de vuelta" date="{{fechaVuelta}}"></paper-date-picker-item>
+-->
+
+            <paper-date-input id="fecha_ida" label="Fecha de ida" disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la fecha de ida"
+                              date="{{fechaIda}}" max-date="[[fechaVuelta]]"></paper-date-input>
+            <paper-date-input id="fecha_vuelta" label="Fecha de vuelta" disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la fecha de vuelta"
+                              date="{{fechaVuelta}}" min-date="[[fechaIda]]"></paper-date-input>
+
+            <paper-input id="personas" type="number" label="Personas" disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar el número de personas"></paper-input>
+
+            <div id="actions" class="container flex-vertical">
+                <paper-button raised class="indigo" on-tap="buscarVuelos" disabled="[[editMode]]">
+                    <iron-icon icon="flight-takeoff"></iron-icon>&nbsp;Buscar vuelos
+                </paper-button>
+                <paper-button raised class="indigo" on-tap="buscarHostales" disabled="[[editMode]]">
+                    <iron-icon icon="maps:hotel"></iron-icon>&nbsp;Buscar hostales
+                </paper-button>
+            </div>
+
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'travel-info',
+
+            properties: {
+                editMode: {
+                    type: Boolean,
+                    value: false
+                },
+                headerIcon: {
+                    type: String,
+                    computed: '_headerIcon(editMode)'
+                },
+                municipio_code: {
+                    type: String,
+                    value: 'administrative_area_level_1',
+                    readOnly: true
+                },
+                ciudad_code: {
+                    type: String,
+                    value: 'locality',
+                    readOnly: true
+                },
+                pais_code: {
+                    type: String,
+                    value: 'country',
+                    readOnly: true
+                },
+                paginaHostales: {
+                    type: String,
+                    value: 'http://www.spanish.hostelworld.com/',
+                    readOnly: true
+                },
+                paginaVuelos: {
+                    type: String,
+                    value: 'https://www.kayak.es/flights/',
+                    readOnly: true
+                }
+
+            },
+
+            observers: [
+                '_fechaIdaChanged(fechaIda)',
+                '_fechaVueltaChanged(fechaVuelta)'
+            ],
+
+            attached: function() {
+
+            },
+
+            _fechaIdaChanged: function(fechaIda) {
+                if (this.fechaVuelta && this.fechaVuelta < fechaIda) {
+                    this.fechaVuelta = null;
+                }
+            },
+
+            _fechaVueltaChanged: function(fechaVuelta) {
+                if (this.fechaIda && this.fechaIda < this.fechaIda) {
+                    this.fechaVuelta = null;
+                }
+            },
+
+            _headerIcon: function(editMode) {
+                if (editMode) {
+                    return 'done';
+                } else {
+                    return 'editor:mode-edit';
+                }
+            },
+
+            saveChanges: function() {
+                this.validateAll();
+                if (this.$.ciudad_salida.invalid ||
+                    this.$.ciudad_destino.invalid ||
+                    this.$.fecha_ida.invalid ||
+                    this.$.fecha_vuelta.invalid ||
+                    this.$.personas.invalid) {
+
+                } else {
+                    this.editMode = !this.editMode;
+                }
+            },
+
+            validateAll: function() {
+                this.$.ciudad_salida.validate();
+                this.$.ciudad_destino.validate();
+                this.$.fecha_ida.validate();
+                this.$.fecha_vuelta.validate();
+                this.$.personas.validate();
+            },
+
+            toggleEditMode: function() {
+                if (this.editMode) {
+                    this.saveChanges();
+                } else {
+                    this.editMode = !this.editMode;
+                }
+            },
+
+            _busca: function(placeInfo, type) {
+                for (var i = 0; i < placeInfo.address_components.length; i++) {
+                    var addressTypes = placeInfo.address_components[i].types;
+                    if (addressTypes.indexOf(type) > -1) {
+                        var val = placeInfo.address_components[i].long_name;
+                        return val;
+                    }
+                }
+            },
+
+            getDatos: function() {
+                var result = {};
+                result.pais = this.$.ciudad_destino.getPlace() ? this._busca(this.$.ciudad_destino.getPlace(), this.municipio_code) : undefined;
+                result.salida = this.$.ciudad_salida.getPlace() ? this._busca(this.$.ciudad_salida.getPlace(), this.ciudad_code) : undefined;
+                result.destino = this.$.ciudad_destino.getPlace() ? this._busca(this.$.ciudad_destino.getPlace(), this.ciudad_code) : undefined;
+                result.ida = this.$.fecha_ida.getDate();
+                result.vuelta = this.$.fecha_vuelta.getDate();
+                result.personas = this.$.personas.value;
+                return result;
+            },
+
+            testURL: function(url, success, error) {
+                $.ajax({
+                    url: url,
+                    dataType: 'jsonp',
+                    jsonpCallback: null,
+                    statusCode: {
+                        200: function() {
+                            success();
+                        },
+                        404: function() {
+                            error();
+                        }
+                    }
+                });
+            },
+
+            buscarVuelos: function() {
+                this.getDatos();
+                var urlVuelos = this.paginaVuelos;
+                if (salida && destino && ida && vuelta && personas) {
+                    //mad-lis/2017-03-24/2017-03-28/6adults
+                    urlVuelos += salida.substr(0, 3);
+                    urlVuelos += "-";
+                    urlVuelos += destino.substr(0, 3);
+                    urlVuelos += "/";
+                    urlVuelos += ida;
+                    urlVuelos += "/";
+                    urlVuelos += vuelta;
+                    urlVuelos += "/";
+                    urlVuelos += personas + "adults";
+                }
+                console.log(urlVuelos);
+                window.open(urlVuelos);
+                //    testURL(urlVuelos,
+                //        function () {
+                //            window.open(urlVuelos);
+                //        },
+                //        function () {
+                //            window.open(construyeURLVuelos(true));
+                //        }
+                //    );
+            },
+
+            buscarHostales: function() {
+                this.getDatos();
+                var urlHostales = this.paginaHostales;
+                if (pais && destino && ida && vuelta && personas) {
+                    //search?country=Escocia&city=Edimburgo&date_from=2017-03-24&date_to=2017-03-28&number_of_guests=6
+                    urlHostales += "search?";
+                    urlHostales += "country=" + pais;
+                    urlHostales += "&city=" + destino;
+                    urlHostales += "&date_from=" + ida;
+                    urlHostales += "&date_to=" + vuelta;
+                    urlHostales += "&number_of_guests=" + personas;
+                }
+                console.log(urlHostales);
+                this.testURL(urlHostales,
+                    function() {
+                        window.open(urlHostales);
+                    },
+                    function() {
+                        window.open(this.paginaHostales);
+                    }
+                );
+            }
+
+        });
+
+    </script>
+</dom-module>

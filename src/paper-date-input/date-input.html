@@ -1,0 +1,57 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-input/iron-input.html">
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="date-validator.html">
+
+<dom-module id="date-input">
+  <template>
+
+    <style>
+      :host {
+        display: inline-block;
+      }
+      :host([hidden]) {
+        display: none !important;
+      }
+      input[is="iron-input"] {
+        font: inherit;
+        outline: none;
+        box-shadow: none;
+        border: none;
+        width: auto;
+        text-align: center;
+      }
+      .container {
+        @apply(--layout-horizontal);
+      }
+    </style>
+
+    <date-validator></date-validator>
+
+    <div class="container">
+
+      <input is="iron-input" bind-value="{{value}}">
+
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'date-input',
+    behaviors: [
+      Polymer.IronValidatableBehavior
+    ],
+    properties: {
+      value: {
+        notify: true,
+        type: String
+      },
+      validator: {
+        type: String,
+        value: 'date-validator'
+      }
+    }
+  });
+</script>

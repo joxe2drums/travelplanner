@@ -1,0 +1,2 @@
+PLACES KEY = AIzaSyCTPa0oyOS6USJvi0-sEiFWMKOv0-jV6Do
+PLACES REQUEST = https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=(cities)&language=pt_BR&key=AIzaSyCTPa0oyOS6USJvi0-sEiFWMKOv0-jV6Do
