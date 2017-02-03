@@ -18,6 +18,7 @@ Para poder instalar Polymer CLI y descargar los componentes, debemos hacer lo si
 ## Ver la aplicación
 
 ```
+cd [ruta de la app]
 polymer serve
 ```
 
