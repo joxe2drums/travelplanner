@@ -7,116 +7,119 @@
 <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <dom-module id="paper-date-input">
-    <template>
+	<template>
 
-        <style is="custom-style" include="paper-date-picker-dialog-style">
-            #input {
-                @apply(--layout-flex);
-            }
-            
-            .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            
-            #btnOpenDialog {
-                margin-left: 12px;
-                color: var(--button-color, --primary-text-color);
-            }
+		<style is="custom-style" include="paper-date-picker-dialog-style">
+			#input {
+				@apply(--layout-flex);
+			}
+			
+			.flex-horizontal {
+				@apply(--layout-horizontal);
+				@apply(--layout-center);
+			}
+			
+			#btnOpenDialog {
+				margin-left: 12px;
+				color: var(--button-color, --primary-text-color);
+			}
+		</style>
 
-        </style>
+		<div class="container main flex-horizontal">
+			<paper-input id="input" label="{{label}}" value="{{dateString}}" disabled="[[disabled]]" invalid="{{invalid}}" required="[[required]]" auto-validate="[[autoValidate]]" error-message="[[errorMessage]]" tabindex="-1">
+				<paper-icon-button suffix id="btnOpenDialog" on-tap="openDialog" icon="today" hidden="[[disabled]]"></paper-icon-button>
+			</paper-input>
+		</div>
 
-        <div class="container main flex-horizontal">
-            <paper-input id="input" label="{{label}}" value="{{dateString}}" disabled="[[disabled]]" invalid="{{invalid}}" required="[[required]]" auto-validate="[[autoValidate]]" error-message="[[errorMessage]]" tabindex="-1">
-                <paper-icon-button suffix id="btnOpenDialog" on-tap="openDialog" icon="today" hidden="[[disabled]]"></paper-icon-button>
-            </paper-input>
-        </div>
+		<paper-dialog id="dialog_date" class="paper-date-picker-dialog" modal modal on-iron-overlay-closed="dismissDialog">
+			<paper-date-picker id="picker" date="{{defaultDate}}" force-narrow="true" locale="es" min-date="[[minDate]]" max-date="[[maxDate]]"></paper-date-picker>
+			<div class="buttons">
+				<paper-button dialog-dismiss>Cancelar</paper-button>
+				<paper-button dialog-confirm>OK</paper-button>
+			</div>
+		</paper-dialog>
 
-        <paper-dialog id="dialog_date" class="paper-date-picker-dialog" modal modal on-iron-overlay-closed="dismissDialog">
-            <paper-date-picker id="picker" date="{{defaultDate}}" force-narrow="true" locale="es" min-date="[[minDate]]" max-date="[[maxDate]]"></paper-date-picker>
-            <div class="buttons">
-                <paper-button dialog-dismiss>Cancelar</paper-button>
-                <paper-button dialog-confirm>OK</paper-button>
-            </div>
-        </paper-dialog>
+	</template>
 
-    </template>
+	<script>
+		Polymer({
 
-    <script>
-        Polymer({
+			is: 'paper-date-input',
 
-            is: 'paper-date-input',
+			properties: {
+				date: {
+					type: Date,
+					value: undefined,
+					notify: true
+				},
+				defaultDate: Date,
+				editable: {
+					type: Boolean,
+					value: true
+				},
+				dateFormatted: {
+					type: String,
+					computed: 'dateFormat(date)'
+				},
+				minDate: {
+					type: Date,
+					notify: true
+				},
+				maxDate: {
+					type: Date,
+					value: null,
+					notify: true
+				}
+			},
 
-            properties: {
-                date: {
-                    type: Date,
-                    value: undefined,
-                    notify: true
-                },
-                defaultDate: Date,
-                editable: {
-                    type: Boolean,
-                    value: true
-                },
-                dateFormatted: {
-                    type: String,
-                    computed: 'dateFormat(date)'
-                },
-                minDate: {
-                    type: Date,
-                    value: null,
-                    notify: true
-                },
-                maxDate: {
-                    type: Date,
-                    value: null,
-                    notify: true
-                }
-            },
-
-            behaviors: [
+			behaviors: [
                 Polymer.InputFormBehavior
             ],
 
-            observers: [
-                '_dateChanged(date)'
+			observers: [
+                '_dateChanged(date)',
+				'_disabledChanged(disabled)'
             ],
 
-            attached: function() {
-                moment.locale('es');
-            },
+			attached: function () {
+				moment.locale('es');
+				this.querySelector('paper-input input').disabled = true;
+			},
 
-            validate: function() {
-                this.$.input.validate();
-            },
+			validate: function () {
+				this.$.input.validate();
+			},
 
-            _dateChanged: function(date) {
-                this.dateString = this.dateFormat(date);
-                this.fire('dateChanged', {
-                    date: date
-                });
-            },
+			_disabledChanged: function (disabled) {
+				this.querySelector('paper-input input').disabled = true;
+			},
 
-            dismissDialog: function(e) {
-                if (e.target.closingReason.confirmed) {
-                    var dateStart = this.defaultDate;
-                    dateStart.setHours(0);
-                    dateStart.setMinutes(0);
-                    dateStart.setSeconds(0);
-                    dateStart.setMilliseconds(0);
-                    this.date = dateStart;
-                }
-            },
+			_dateChanged: function (date) {
+				this.dateString = this.dateFormat(date);
+				this.fire('dateChanged', {
+					date: date
+				});
+			},
 
-            openDialog: function() {
-                this.$.dialog_date.toggle();
-            },
+			dismissDialog: function (e) {
+				if (e.target.closingReason.confirmed) {
+					var dateStart = this.defaultDate;
+					dateStart.setHours(0);
+					dateStart.setMinutes(0);
+					dateStart.setSeconds(0);
+					dateStart.setMilliseconds(0);
+					this.date = dateStart;
+				}
+			},
 
-            dateFormat: function(date) {
-                return moment(date).format('L');
-            }
+			openDialog: function () {
+				this.$.dialog_date.toggle();
+			},
 
-        });
+			dateFormat: function (date) {
+				return moment(date).format('L');
+			}
 
-    </script>
+		});
+	</script>
 </dom-module>
