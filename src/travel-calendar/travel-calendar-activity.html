@@ -1,0 +1,85 @@
+
+<dom-module id="travel-calendar-activity">
+    <template>
+
+        <style is="custom-style">
+            :host {
+                background: #1DE9B6;
+                height: 100%;
+                font-family: Roboto;
+                overflow: hidden;
+            }
+            
+            #container {
+                height: 100%;
+                margin: 12px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            #spacer {
+                height: 12px
+            }
+            
+            #description {
+/*                font-family: Roboto;*/
+                font-weight: 100;
+            }
+            
+        </style>
+
+        <div id="container">
+            <a id="name">[[name]]</a>
+            <div id="spacer"></div>
+            <a id="description">[[description]]</a>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'travel-calendar-activity',
+
+            properties: {
+                start: Date,
+                end: Date,
+                duration: {
+                    type: Number,
+                    //                    computed: '_conputeDuration(start, end)'
+                },
+                name: String,
+                description: String,
+                place: Object,
+                color: String
+            },
+
+            observers: [
+                //                'method(property)'
+                'drawActivity(duration)',
+                'colorActivity(color)'
+            ],
+
+            attached: function() {
+
+            },
+
+            _conputeDuration: function(start, end) {
+                return Math.round((end - start) / 60000);
+            },
+
+            drawActivity: function(duration) {
+                //                console.log('draw activity: ' + duration);
+                var minutesOnDay = 24 * 60;
+                var percentageMinutesOnDay = 100 / minutesOnDay;
+                this.style.width = (duration * percentageMinutesOnDay) + '%';
+            },
+
+            colorActivity: function(color) {
+                this.style.background = color;
+            }
+
+        });
+
+    </script>
+</dom-module>

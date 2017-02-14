@@ -4,6 +4,7 @@
 
 <link rel="import" href="/src/travel-info/travel-info.html">
 <link rel="import" href="/src/travel-mate-list/travel-mate-list.html">
+<link rel="import" href="/src/travel-calendar/travel-calendar-day.html">
 
 <dom-module id="travel-planner">
     <template>
@@ -40,7 +41,7 @@
             
             #calendario {
                 background-color: var(--paper-grey-100);
-                @apply(--layout-horizontal);
+/*                @apply(--layout-horizontal);*/
             }
             
             #datos_evento {
@@ -58,7 +59,7 @@
                 height: 100%;
             }
             
-            #datos_viaje {
+            #datos_viaje, #calendario {
                 overflow-y: auto;
             }
             
@@ -72,8 +73,8 @@
                 <travel-mate-list class="flexchild" mates="{{mates}}"></travel-mate-list>
             </div>
 
-            <div id="calendario" class="flexlarge">
-
+            <div id="calendario" class="flexlarge container flex-vertical">
+                <travel-calendar-day></travel-calendar-day>
             </div>
 
             <div id="datos_evento" class="flexlittle">
