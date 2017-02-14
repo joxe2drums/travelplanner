@@ -8,73 +8,19 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="imports.html">
-    <link rel="import" href="bower_components/paper-date-picker/paper-calendar.html">
+    <!--    <link rel="import" href="imports.html">-->
+
+    <!-- IMPORTS -->
+    <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+    <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+    <link rel="import" href="/bower_components/iron-pages/iron-pages.html">
+
+    <link rel="import" href="/src/travel-planner/travel-planner.html">
 
     <style is="custom-style" include="iron-positioning">
-        body {
-            /*
-            --primary-color: var(--paper-teal-500);
-            --primary-text-color: white;
-            --light-primary-color: var(--paper-teal-100);
-            --dark-primary-color: var(--paper-teal-700);
-            --accent-color: var(--paper-deep-orange-a200);
-            --light-accent-color: var(--paper-deep-orange-a100);
-            --dark-accent-color: var(--paper-deep-orange-a400);
-*/
-        }
         
-        .flex-vertical {
-            @apply(--layout-vertical);
-        }
-        
-        .flexchild {
-            @apply(--layout-flex);
-        }
-        
-        .flex-horizontal-with-ratios {
-            @apply(--layout-horizontal);
-        }
-        
-        .flexlittle {
-            @apply(--layout-flex);
-        }
-        
-        .flexmedium {
-            @apply(--layout-flex-2);
-        }
-        
-        .flexlarge {
-            @apply(--layout-flex-3);
-        }
-        
-        #datos_viaje > div {
-            background-color: var(--dark-theme-background-color);
-        }
-        
-        #calendario {
-            background-color: var(--paper-grey-100);
-            @apply(--layout-horizontal);
-        }
-        
-        #datos_evento {
-            background-color: var(--dark-theme-background-color);
-        }
-        
-        .container {
-            height: 100vh;
-        }
-        
-        travel-info {
-            --travel-info-form-color: var(--dark-theme-text-color);
-/*            --travel-info-form-accent-color: var(--accent-color);*/
-            --travel-info-form-value-color: var(--dark-theme-text-color);
-            --travel-info-form-invalid-color: var(--paper-red-500);
-        }
-        
-        paper-calendar {
-            height: inherit !important;
-            width: inherit !important;
+        iron-pages {
+            height: 100%
         }
 
     </style>
@@ -82,22 +28,9 @@
 </head>
 
 <body class="fullbleed vertical layout">
-    <div class="container flex-horizontal-with-ratios">
-        <div id="datos_viaje" class="flexlittle container flex-vertical">
-            <div>
-                <travel-info></travel-info>
-            </div>
-            <travel-mate-list class="flexchild" mates='[{"name":"Jose"},{"name":"Isma"},{"name":"Ruben"},{"name":"Adri"},{"name":"Alex"}]'></travel-mate-list>
-        </div>
-
-        <div id="calendario" class="flexlarge">
-<!--            <paper-calendar></paper-calendar>-->
-        </div>
-
-        <div id="datos_evento" class="flexlittle">
-
-        </div>
-    </div>
+    <iron-pages selected="0">
+        <travel-planner></travel-planner>
+    </iron-pages>
 </body>
 
 </html>

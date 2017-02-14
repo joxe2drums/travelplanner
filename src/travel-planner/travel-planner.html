@@ -1,0 +1,108 @@
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="/src/travel-info/travel-info.html">
+<link rel="import" href="/src/travel-mate-list/travel-mate-list.html">
+
+<dom-module id="travel-planner">
+    <template>
+
+        <style is="custom-style" include="iron-positioning">
+            
+            .flex-vertical {
+                @apply(--layout-vertical);
+            }
+            
+            .flexchild {
+                @apply(--layout-flex);
+            }
+            
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+            
+            .flexlittle {
+                @apply(--layout-flex);
+            }
+            
+            .flexmedium {
+                @apply(--layout-flex-2);
+            }
+            
+            .flexlarge {
+                @apply(--layout-flex-3);
+            }
+            
+            #datos_viaje > div {
+                background-color: var(--dark-theme-background-color);
+            }
+            
+            #calendario {
+                background-color: var(--paper-grey-100);
+                @apply(--layout-horizontal);
+            }
+            
+            #datos_evento {
+                background-color: var(--dark-theme-background-color);
+            }
+            
+            travel-info {
+                --travel-info-form-color: var(--dark-theme-text-color);
+                /*            --travel-info-form-accent-color: var(--accent-color);*/
+                --travel-info-form-value-color: var(--dark-theme-text-color);
+                --travel-info-form-invalid-color: var(--paper-red-500);
+            }
+            
+            .container {
+                height: 100%;
+            }
+            
+            #datos_viaje {
+                overflow-y: auto;
+            }
+            
+        </style>
+
+        <div class="container flex-horizontal-with-ratios">
+            <div id="datos_viaje" class="flexlittle container flex-vertical">
+                <div>
+                    <travel-info id="travel_form"></travel-info>
+                </div>
+                <travel-mate-list class="flexchild" mates="{{mates}}"></travel-mate-list>
+            </div>
+
+            <div id="calendario" class="flexlarge">
+
+            </div>
+
+            <div id="datos_evento" class="flexlittle">
+
+            </div>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'travel-planner',
+            
+            properties: {
+                mates: Array
+            },
+
+            attached: function() {
+                this.$.travel_form.addEventListener('content_saved', function(e) {
+                    console.log(e.detail.content);
+                    window.localStorage.setItem('travelInfo', e.detail.content);
+                });
+                
+                this.mates = [{name:"Jose", id:"1"},{name:"Isma", id:"2"},{name:"Ruben", id:"3"},{name:"Adri", id:"4"},{name:"Alex", id:"5"}];
+            }
+
+        });
+
+    </script>
+
+    </html>

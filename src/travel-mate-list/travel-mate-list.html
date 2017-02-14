@@ -2,11 +2,21 @@
 <link rel="import" href="/bower_components/paper-item/paper-item.html">
 <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="/bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="travel-mate.html">
 
 <dom-module id="travel-mate-list">
     <template>
 
         <style is="custom-style">
+            :host {
+                background: var(--primary-background-color)
+            }
+            
             iron-list paper-icon-button {
                 width: 35px;
                 height: 35px;
@@ -20,26 +30,50 @@
                 color: var(--dark-theme-text-color);
                 font-weight: 300;
             }
+            
+            .flex-vertical {
+                @apply(--layout-vertical);
+            }
+            
+            .flexchild-vertical {
+                @apply(--layout-flex);
+            }
 
         </style>
 
-        <app-toolbar>
-            <div main-title>Personas</div>
-            <paper-icon-button icon="add"></paper-icon-button>
-        </app-toolbar>
+        <div id="container" class="container flex-vertical">
+            <app-toolbar>
+                <div main-title>Personas</div>
+                <paper-icon-button icon="add" on-tap="addMate"></paper-icon-button>
+            </app-toolbar>
 
-        <iron-list id="list" items="[[mates]]" as="mate">
-            <template>
-                <div>
-                    <paper-item tabIndex="-1">
-                        <paper-item-body>
-                            [[mate.name]]
-                        </paper-item-body>
-                        <paper-icon-button tabIndex="0" icon="close" on-tap="deleteMate"></paper-icon-button>
-                    </paper-item>
-                </div>
-            </template>
-        </iron-list>
+            <div id="list_container" class="flexchild-vertical">
+                <iron-list id="list" items="{{mates}}" as="mate">
+                    <template>
+                        <travel-mate mate="[[mate]]"></travel-mate>
+                    </template>
+                </iron-list>
+            </div>
+        </div>
+
+        <paper-dialog id="dialog_add" modal entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+            <h2>Añadir compañero</h2>
+            <p>Introduce el nombre del compañero que quieres añadir al viaje.</p>
+            <paper-input autofocus on-keydown="checkForEnter" id="mate_name_to_add" label="Nombre" error-message="Debes introducir un nombre" required auto-validate invalid="{{nameInvalid}}"></paper-input>
+            <div class="buttons">
+                <paper-button dialog-dismiss>Cancelar</paper-button>
+                <paper-button id="btnAddMate" dialog-confirm on-tap="addMateDefinitely" disabled="[[nameInvalid]]">Añadir</paper-button>
+            </div>
+        </paper-dialog>
+
+        <paper-dialog id="dialog_delete" modal entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+            <h2>Eliminar compañero</h2>
+            <p>¿Quieres eliminar a [[selectedMate.name]] de este viaje?</p>
+            <div class="buttons">
+                <paper-button dialog-dismiss>Cancelar</paper-button>
+                <paper-button dialog-confirm autofocus on-tap="deleteMateDefinitely">Eliminar</paper-button>
+            </div>
+        </paper-dialog>
 
     </template>
 
@@ -52,17 +86,71 @@
                 mates: {
                     type: Array,
                     value: []
+                },
+                
+                selectedMate: {
+                    type: Object
                 }
             },
 
             attached: function() {
+                this.addEventListener('delete_mate', this.deleteMate);
+            },
 
+            observers: [
+                '_matesChanged(mates)'
+            ],
+            
+            addMate: function() {
+                this.$.dialog_add.open();
+            },
+            
+            checkForEnter: function (e) {
+                this.$.mate_name_to_add.validate();
+                if (e.keyCode === 13 && !nameInvalid) {
+                    this.$.btnAddMate.click();
+                }
+            },
+            
+            addMateDefinitely: function() {
+                var name = this.$.mate_name_to_add.value;
+                this.add({name: name, id: name});
+                this.$.mate_name_to_add.value = "";
             },
 
             deleteMate: function(e) {
-                console.log(e)
+                var index = -1;
+                for (var i = 0; i < this.mates.length; i++) {
+                    if (this.mates[i].id == e.detail.id) {
+                        this.selectedMate = {name: this.mates[i].name, index: i};
+                        break;
+                    }
+                }
+                this.$.dialog_delete.open();
             },
             
+            deleteMateDefinitely: function() {
+                this.delete(this.selectedMate.index);
+            },
+
+            delete: function(index) {
+                var _mates = this.mates;
+                this.mates = [];
+                _mates.splice(index, 1);
+                this.mates = _mates;
+            },
+
+            add: function(item) {
+                var _mates = this.mates;
+                this.mates = [];
+                _mates.push(item);
+                this.mates = _mates;
+            },
+
+            _matesChanged: function(mates) {
+                this.render();
+            },
+
             render: function() {
                 this.$.list.fire('iron-resize');
             }

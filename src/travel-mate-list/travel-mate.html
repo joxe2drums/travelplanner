@@ -1,0 +1,50 @@
+<link rel="import" href="/bower_components/iron-list/iron-list.html">
+<link rel="import" href="/bower_components/paper-item/paper-item.html">
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+<dom-module id="travel-mate">
+    <template>
+
+        <style is="custom-style">
+            paper-icon-button {
+                width: 35px;
+                height: 35px;
+                --paper-icon-button-ink-color: var(--paper-red-a400);
+                color: var(--paper-red-a700);
+            }
+
+        </style>
+
+        <paper-item tabIndex="-1">
+            <paper-item-body>
+                [[mate.name]]
+            </paper-item-body>
+            <paper-icon-button tabIndex="0" icon="close" on-tap="deleteMate"></paper-icon-button>
+        </paper-item>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'travel-mate',
+
+            properties: {
+                mate: Object
+            },
+
+            attached: function() {
+
+            },
+            
+            deleteMate: function(e) {
+                this.fire('delete_mate', {id: this.mate.id});
+            }
+
+        });
+
+    </script>
+</dom-module>

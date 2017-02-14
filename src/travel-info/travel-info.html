@@ -209,7 +209,7 @@
 					this.$.fecha_ida.invalid ||
 					this.$.fecha_vuelta.invalid ||
 					this.$.personas.invalid) {
-
+                    this.fire('content_saved', {content: this.getDatos()});
 				} else {
 					this.editMode = !this.editMode;
 				}
@@ -244,13 +244,21 @@
 			getDatos: function () {
 				var result = {};
 				result.pais = this.$.ciudad_destino.getPlace() ? this._busca(this.$.ciudad_destino.getPlace(), this.municipio_code) : undefined;
-				result.salida = this.$.ciudad_salida.getPlace() ? this._busca(this.$.ciudad_salida.getPlace(), this.ciudad_code) : undefined;
-				result.destino = this.$.ciudad_destino.getPlace() ? this._busca(this.$.ciudad_destino.getPlace(), this.ciudad_code) : undefined;
+				result.salida = this.$.ciudad_salida.getPlace() ? this.$.ciudad_salida.getPlace().name : undefined;
+				result.destino = this.$.ciudad_destino.getPlace() ? this.$.ciudad_destino.getPlace().name : undefined;
 				result.ida = this.fechaIda;
 				result.vuelta = this.fechaVuelta;
 				result.personas = this.$.personas.value;
 				return result;
 			},
+            
+            setDatos: function(content) {
+                this.$.ciudad_salida.place = content.ciudad_salida;
+				this.$.ciudad_destino.place = content.ciudad_destino;
+				this.$.fecha_ida.date = content.fecha_ida;
+				this.$.fecha_vuelta.date = content.fecha_vuelta;
+				this.$.personas.value = content.personas;
+            },
 
 			testURL: function (url, success, error) {
 				$.ajax({

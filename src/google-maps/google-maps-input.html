@@ -12,8 +12,7 @@
         </style>
 
         <google-maps-api api-key="[[apiKey]]" version="3.exp"></google-maps-api>
-        <paper-input id="input" label="{{label}}" disabled="[[disabled]]" invalid="{{invalid}}"
-                     required="[[required]]" auto-validate="[[autoValidate]]" error-message="[[errorMessage]]"></paper-input>
+        <paper-input id="input" label="{{label}}" disabled="[[disabled]]" invalid="{{invalid}}" required="[[required]]" auto-validate="[[autoValidate]]" error-message="[[errorMessage]]"></paper-input>
 
     </template>
 
@@ -29,16 +28,21 @@
                 types: {
                     type: Array,
                     value: []
+                },
+                place: {
+                    type: Object
                 }
             },
-            
-            
 
             behaviors: [
                 Polymer.GoogleMapsApiBehaviors,
                 Polymer.InputFormBehavior
             ],
-            
+
+            observers: [
+                '_placeChanged(place)'
+            ],
+
             attached: function() {
                 var that = this;
                 var mapsAPI = document.querySelector('google-maps-api');
@@ -47,15 +51,20 @@
                         types: that.types
                     });
                     that.input.addListener('place_changed', function(e, detail) {
-                        that.fire('place_changed', {
-                            place: that.getPlace()
-                        });
+                        that.place = that.input.getPlace();
                     });
                 });
             },
 
             getPlace: function() {
-                return this.input.getPlace();
+                return this.place;
+            },
+
+            _placeChanged: function(place) {
+                if (place) {
+                    this.$.input.value = place.formatted_address;
+                }
+                this.fire('place_changed', {place: place});
             }
         });
 
