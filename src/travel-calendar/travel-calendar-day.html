@@ -4,7 +4,10 @@
 <link rel="import" href="/bower_components/neon-animation/neon-animation-runner-behavior.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-down-animation.html">
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/bower_components/iron-icons/hardware-icons.html">
 <link rel="import" href="travel-calendar-activity.html">
+<link rel="import" href="animatables/calendar-fab.html">
 
 <dom-module id="travel-calendar-day">
     <template>
@@ -13,6 +16,10 @@
             :host {
                 width: 100%;
                 border-bottom: 2px solid var(--divider-color);
+                overflow: hidden;
+                height: 170px;
+                min-height: 170px;
+                font-family: Roboto;
             }
             
             .flex-horizontal {
@@ -20,17 +27,16 @@
             }
             
             #main_container {
-                height: 150px;
-                background-color: var(--primary-background-color);
+                background-color: var(--paper-grey-100);
                 position: relative;
+                height: 100%;
             }
             
-            paper-fab {
+            #fab_new_activity {
                 position: absolute;
                 right: 12px;
-                top: 47px;
-                display: none;
-                z-index: 3
+                top: 57px;
+                z-index: 3;
             }
             
             .container {
@@ -38,24 +44,43 @@
                 height: 100%;
             }
             
-/*
-            .activity {
-                width: 100px;
-                background: #64FFDA;
+            #day_header {
+                background-color: var(--primary-background-color);
+                box-shadow: 2px 0 6px 0 rgba(0, 0, 0, 0.1), 4px 0 12px 0 rgba(0, 0, 0, 0.15);
+                text-align: center;
+                z-index: 3;
             }
-*/
+            
+            #day_header paper-icon-button {
+                position: relative;
+                bottom: -5px;
+            }
+            
+            .text-vertical {
+                writing-mode: tb-rl;
+                transform: rotate(180deg);
+                padding-top: 12px;
+                padding-bottom: 20px;
+            }
             
         </style>
 
-        <div id="main_container">
-            <div class="container flex-horizontal">
+        <div id="main_container" class="container flex-horizontal">
+            <div id="day_header">
+                <p class="text-vertical">[[dateFormatted]]</p>
+                <paper-icon-button icon="hardware:keyboard-arrow-down"></paper-icon-button>
+            </div>
+            <div id="activity_compact" class="container flex-horizontal">
+
+                <!--
                 <travel-calendar-activity color="#FF1744" name="Ejemplo" duration="160" description="test etst eeuw ef"></travel-calendar-activity>
                 <travel-calendar-activity name="Test g d dfg dfh  hdfhd dh" duration="300" description="test etst eeuw ef"></travel-calendar-activity>
                 <travel-calendar-activity color="#FFEA00" name="Holaaaaaaaaaaaaaaaaaa" duration="230" description="test etst eeuw ef"></travel-calendar-activity>
-            </div>
-            <paper-fab id="fabBtn" icon="add"></paper-fab>
-        </div>
+-->
 
+                <calendar-fab id="fab_new_activity" icon="add" hide="true"></calendar-fab>
+            </div>
+        </div>
 
     </template>
 
@@ -65,66 +90,72 @@
             is: 'travel-calendar-day',
 
             properties: {
-                content: Object,
-                btnShown: {
-                    type: Boolean,
-                    value: false
-                },
-                animationConfig: {
-                    value: function() {
-                        return {
-                            'showButton': {
-                                // provided by neon-animation/animations/scale-up-animation.html
-                                name: 'scale-up-animation',
-                                node: this.$.fabBtn
-                            },
-                            'hideButton': {
-                                // provided by neon-animation/animations/fade-out-animation.html
-                                name: 'scale-down-animation',
-                                node: this.$.fabBtn
-                            }
-                        }
-                    }
+                date: Date,
+                activities: Array,
+                dateFormatted: {
+                    type: String,
+                    computed: '_formatDate(date)'
                 }
             },
 
             attached: function() {
-                $(this).hover(this._mouseIn, this._mouseOut);
+                $(this.$.activity_compact).hover(this._mouseIn, this._mouseOut);
             },
 
             behaviors: [
-                Polymer.NeonAnimationRunnerBehavior
+                //                Polymer.NeonAnimationRunnerBehavior
             ],
 
             observers: [
-                //                'method(property)'
+                '_createActivities(activities)'
             ],
 
             listeners: {
-                'neon-animation-finish': '_hideBtnFinish'
+                //                'neon-animation-finish': '_hideBtnFinish'
             },
-                
-            _test: function() {
-                console.log('test');
+
+            _formatDate: function(date) {
+                return moment(date).format('DD/MM/YYYY');
             },
 
             _mouseIn: function(e) {
-                this.btnShown = true;
-                this.$.fabBtn.style.display = 'inline-block';
-                this.playAnimation('showButton');
+                this.querySelector('#fab_new_activity').scaleUp();
             },
 
             _mouseOut: function(e) {
-                this.btnShown = false;
-                this.playAnimation('hideButton');
+                this.querySelector('#fab_new_activity').scaleDown();
             },
-            
-            _hideBtnFinish: function(e) {
-                if (!this.btnShown) {
-                    this.$.fabBtn.style.display = 'none';
+
+            _createActivities: function(activities) {
+                activities.sort(function(a, b) {
+                    return a.start - b.start;
+                });
+                var previousDate = this.date;
+                for (var i = 0; i < activities.length; i++) {
+
+                    var activity = activities[i];
+                    
+                    if (activity.start - previousDate > 0) {
+                        var calendarActivity = document.createElement('travel-calendar-activity');
+                        calendarActivity.start = previousDate;
+                        calendarActivity.end = activity.start;
+                        calendarActivity.empty = true;
+                        this.$.activity_compact.appendChild(calendarActivity);
+                    }
+                    
+                    var calendarActivity = document.createElement('travel-calendar-activity');
+                    calendarActivity.start = activity.start;
+                    calendarActivity.end = activity.end;
+                    calendarActivity.name = activity.name;
+                    calendarActivity.description = activity.description;
+                    calendarActivity.place = activity.place;
+                    calendarActivity.color = activity.color;
+                    this.$.activity_compact.appendChild(calendarActivity);
+                    
+                    previousDate = activity.end;
                 }
-            },
-            
+            }
+
         });
 
     </script>

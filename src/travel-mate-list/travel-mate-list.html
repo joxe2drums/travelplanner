@@ -50,7 +50,7 @@
             <div id="list_container" class="flexchild-vertical">
                 <iron-list id="list" items="{{mates}}" as="mate">
                     <template>
-                        <travel-mate mate="[[mate]]"></travel-mate>
+                        <travel-mate name="[[mate.name]]" id="[[mate.id]]" avatar="[[mate.avatar]]"></travel-mate>
                     </template>
                 </iron-list>
             </div>
@@ -107,7 +107,8 @@
             
             checkForEnter: function (e) {
                 this.$.mate_name_to_add.validate();
-                if (e.keyCode === 13 && !nameInvalid) {
+                console.log(e.keyCode);
+                if (e.keyCode === 13 && !this.nameInvalid) {
                     this.$.btnAddMate.click();
                 }
             },

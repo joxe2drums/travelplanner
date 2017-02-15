@@ -1,13 +1,18 @@
+<link rel="import" href="/bower_components/paper-ripple/paper-ripple.html">
 
 <dom-module id="travel-calendar-activity">
     <template>
 
         <style is="custom-style">
             :host {
-                background: #1DE9B6;
                 height: 100%;
                 font-family: Roboto;
                 overflow: hidden;
+                position: relative;
+            }
+            
+            :host:hover {
+                
             }
             
             #container {
@@ -22,12 +27,12 @@
             }
             
             #description {
-/*                font-family: Roboto;*/
                 font-weight: 100;
             }
-            
-        </style>
 
+        </style>
+        
+        <paper-ripple id="ripple"></paper-ripple>
         <div id="container">
             <a id="name">[[name]]</a>
             <div id="spacer"></div>
@@ -46,18 +51,23 @@
                 end: Date,
                 duration: {
                     type: Number,
-                    //                    computed: '_conputeDuration(start, end)'
+                    computed: '_conputeDuration(start, end)'
                 },
                 name: String,
                 description: String,
                 place: Object,
-                color: String
+                color: String,
+                empty: {
+                    type: Boolean,
+                    value: false
+                }
             },
 
             observers: [
                 //                'method(property)'
-                'drawActivity(duration)',
-                'colorActivity(color)'
+                'drawActivity(start, end)',
+                'colorActivity(color)',
+                'emptyChanged(empty)'
             ],
 
             attached: function() {
@@ -68,11 +78,15 @@
                 return Math.round((end - start) / 60000);
             },
 
-            drawActivity: function(duration) {
-                //                console.log('draw activity: ' + duration);
+            emptyChanged: function(empty) {
+                this.style.cursor = (empty ? 'default' : 'pointer');
+                this.$.ripple.style.display = (empty ? 'none' : 'inherit');
+            },
+
+            drawActivity: function(start, end) {
                 var minutesOnDay = 24 * 60;
                 var percentageMinutesOnDay = 100 / minutesOnDay;
-                this.style.width = (duration * percentageMinutesOnDay) + '%';
+                this.style.width = (this.duration * percentageMinutesOnDay) + '%';
             },
 
             colorActivity: function(color) {

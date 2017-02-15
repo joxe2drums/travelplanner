@@ -1,5 +1,6 @@
 <link rel="import" href="/bower_components/iron-list/iron-list.html">
 <link rel="import" href="/bower_components/paper-item/paper-item.html">
+<link rel="import" href="/bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="/bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
@@ -15,15 +16,34 @@
                 --paper-icon-button-ink-color: var(--paper-red-a400);
                 color: var(--paper-red-a700);
             }
+            
+            #accountImage {
+                display: none;
+                box-sizing: border-box;
+                border-radius: 50%;
+            }
+            
+            #accountIcon {
+                color: #424242;
+            }
+            
+            .avatar {
+                width: 40px;
+                height: 40px;
+            }
 
         </style>
 
-        <paper-item tabIndex="-1">
+        <paper-icon-item tabIndex="-1">
+
+            <div id="accountImage" class="avatar" item-icon></div>
+            <iron-icon id="accountIcon" class="avatar" icon="account-circle" item-icon></iron-icon>
+
             <paper-item-body>
-                [[mate.name]]
+                [[name]]
             </paper-item-body>
             <paper-icon-button tabIndex="0" icon="close" on-tap="deleteMate"></paper-icon-button>
-        </paper-item>
+        </paper-icon-item>
 
     </template>
 
@@ -33,15 +53,37 @@
             is: 'travel-mate',
 
             properties: {
-                mate: Object
+                mate: Object,
+                id: String,
+                avatar: String
             },
+
+            observers: [
+                'avatarChanged(avatar)'
+            ],
 
             attached: function() {
 
             },
-            
+
+            avatarChanged: function(avatar) {
+                if (avatar) {
+                    this.$.accountImage.style.background = 'url(' + avatar + ')';
+                    this.$.accountImage.style.display = 'inline-block';
+                    this.$.accountImage.style.backgroundSize = "cover";
+                    this.$.accountImage.style.backgroundRepeat = "no-repeat";
+                    this.$.accountImage.style.backgroundPosition = "center";
+                    this.$.accountIcon.style.display = 'none';
+                } else {
+                    this.$.accountImage.style.display = 'none';
+                    this.$.accountIcon.style.display = 'inline-block';
+                }
+            },
+
             deleteMate: function(e) {
-                this.fire('delete_mate', {id: this.mate.id});
+                this.fire('delete_mate', {
+                    id: this.id
+                });
             }
 
         });

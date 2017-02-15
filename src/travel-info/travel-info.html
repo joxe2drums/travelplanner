@@ -10,327 +10,333 @@
 <link rel="import" href="/src/paper-date-input/paper-date-input.html">
 
 <dom-module id="travel-info">
-	<template>
+    <template>
 
-		<style is="custom-style">
-			:host {
-				--paper-input-container-color: var(--travel-info-form-color, --secondary-text-color);
-				--paper-input-container-focus-color: var(--travel-info-form-accent-color, --primary-color);
-				--paper-input-container-input-color: var(--travel-info-form-value-color, --primary-text-color);
-				--paper-input-container-invalid-color: var(--travel-info-form-invalid-color, --error-color);
-				--paper-input-container-disabled: {
-					opacity: 1;
-				}
-				--paper-input-container-underline-disabled: {
-					display: none;
-				}
-			}
-			
-			app-toolbar {
-				font-family: Roboto, Noto, sans-serif;
-				background-color: var(--primary-color);
-				color: var(--dark-theme-text-color);
-				font-weight: 300;
-			}
-			
-			.flex-vertical {
-				@apply(--layout-vertical);
-			}
-			
-			.flexchild-vertical {
-				@apply(--layout-flex);
-			}
-			
-			.container.main {
-				margin: 20px;
-				background: var(--travel-info-background, transparent);
-				height: var(--travel-info-height);
-			}
-			
-			#actions {
-				margin-top: 20px
-			}
-			
-			#actions > paper-button {
-				margin-bottom: 12px;
-				--paper-button: {
-					background-color: var(--travel-info-button-color, --primary-color);
-					color: white;
-				}
-				--paper-button-raised-keyboard-focus: {
-					background-color: var(--travel-info-button-accent, --accent-color) !important;
-					color: white !important;
-				}
-			}
-			
-			paper-date-input {
-				--button-color: var(--dark-theme-text-color)
-			}
-		</style>
+        <style is="custom-style">
+            :host {
+                --paper-input-container-color: var(--travel-info-form-color, --secondary-text-color);
+                --paper-input-container-focus-color: var(--travel-info-form-accent-color, --primary-color);
+                --paper-input-container-input-color: var(--travel-info-form-value-color, --primary-text-color);
+                --paper-input-container-invalid-color: var(--travel-info-form-invalid-color, --error-color);
+                --paper-input-container-disabled: {
+                    opacity: 1;
+                }
+                --paper-input-container-underline-disabled: {
+                    display: none;
+                }
+            }
+            
+            app-toolbar {
+                font-family: Roboto, Noto, sans-serif;
+                background-color: var(--primary-color);
+                color: var(--dark-theme-text-color);
+                font-weight: 300;
+            }
+            
+            .flex-vertical {
+                @apply(--layout-vertical);
+            }
+            
+            .flexchild-vertical {
+                @apply(--layout-flex);
+            }
+            
+            .container.main {
+                margin: 20px;
+                background: var(--travel-info-background, transparent);
+                height: var(--travel-info-height);
+            }
+            
+            #actions {
+                margin-top: 20px
+            }
+            
+            #actions > paper-button {
+                margin-bottom: 12px;
+                --paper-button: {
+                    background-color: var(--travel-info-button-color, --primary-color);
+                    color: white;
+                }
+                --paper-button-raised-keyboard-focus: {
+                    background-color: var(--travel-info-button-accent, --accent-color) !important;
+                    color: white !important;
+                }
+            }
+            
+            paper-date-input {
+                --button-color: var(--dark-theme-text-color)
+            }
 
-		<app-toolbar>
-			<div main-title>Datos del viaje</div>
-			<paper-icon-button icon="[[headerIcon]]" on-tap="toggleEditMode"></paper-icon-button>
-		</app-toolbar>
+        </style>
 
-		<div class="container main flex-vertical">
+        <app-toolbar>
+            <div main-title>Datos del viaje</div>
+            <paper-icon-button icon="[[headerIcon]]" on-tap="toggleEditMode"></paper-icon-button>
+        </app-toolbar>
 
-			<google-maps-input label="Ciudad salida" id="ciudad_salida" types='["geocode"]' disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la ciudad de salida"></google-maps-input>
-			<google-maps-input label="Ciudad destino" id="ciudad_destino" types='["geocode"]' disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la ciudad de destino"></google-maps-input>
+        <div class="container main flex-vertical">
 
-			<paper-date-input id="fecha_ida" label="Fecha de ida" disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la fecha de ida" date="{{fechaIda}}" max-date="[[_idaMaxDate]]" min-date="[[_idaMinDate]]"></paper-date-input>
-			<paper-date-input id="fecha_vuelta" label="Fecha de vuelta" disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la fecha de vuelta" date="{{fechaVuelta}}" min-date="[[_vueltaMinDate]]"></paper-date-input>
+            <google-maps-input label="Ciudad salida" id="ciudad_salida" types='["geocode"]' disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la ciudad de salida"></google-maps-input>
+            <google-maps-input label="Ciudad destino" id="ciudad_destino" types='["geocode"]' disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la ciudad de destino"></google-maps-input>
 
-			<paper-input id="personas" type="number" label="Personas" disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar el número de personas"></paper-input>
+            <paper-date-input id="fecha_ida" label="Fecha de ida" disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la fecha de ida" date="{{fechaIda}}" max-date="[[_idaMaxDate]]" min-date="[[_idaMinDate]]"></paper-date-input>
+            <paper-date-input id="fecha_vuelta" label="Fecha de vuelta" disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar la fecha de vuelta" date="{{fechaVuelta}}" min-date="[[_vueltaMinDate]]"></paper-date-input>
 
-			<div id="actions" class="container flex-vertical">
-				<paper-button raised class="indigo" on-tap="buscarVuelos" disabled="[[editMode]]">
-					<iron-icon icon="flight-takeoff"></iron-icon>&nbsp;Buscar vuelos
-				</paper-button>
-				<paper-button raised class="indigo" on-tap="buscarHostales" disabled="[[editMode]]">
-					<iron-icon icon="maps:hotel"></iron-icon>&nbsp;Buscar hostales
-				</paper-button>
-			</div>
+            <paper-input id="personas" type="number" label="Personas" disabled="[[!editMode]]" required auto-validate error-message="Es necesario indicar el número de personas"></paper-input>
 
-		</div>
+            <div id="actions" class="container flex-vertical">
+                <paper-button raised class="indigo" on-tap="buscarVuelos" disabled="[[editMode]]">
+                    <iron-icon icon="flight-takeoff"></iron-icon>&nbsp;Buscar vuelos
+                </paper-button>
+                <paper-button raised class="indigo" on-tap="buscarHostales" disabled="[[editMode]]">
+                    <iron-icon icon="maps:hotel"></iron-icon>&nbsp;Buscar hostales
+                </paper-button>
+            </div>
 
-	</template>
+        </div>
 
-	<script>
-		Polymer({
+    </template>
 
-			is: 'travel-info',
+    <script>
+        Polymer({
 
-			properties: {
-				editMode: {
-					type: Boolean,
-					value: false
-				},
-				headerIcon: {
-					type: String,
-					computed: '_headerIcon(editMode)'
-				},
-				municipio_code: {
-					type: String,
-					value: 'administrative_area_level_1',
-					readOnly: true
-				},
-				ciudad_code: {
-					type: String,
-					value: 'locality',
-					readOnly: true
-				},
-				pais_code: {
-					type: String,
-					value: 'country',
-					readOnly: true
-				},
-				paginaHostales: {
-					type: String,
-					value: 'http://www.spanish.hostelworld.com/',
-					readOnly: true
-				},
-				paginaVuelos: {
-					type: String,
-					value: 'https://www.kayak.es/flights/',
-					readOnly: true
-				},
-				_idaMinDate: {
-					type: Date,
-					value: function () {
-						return this._getToday();
-					},
-					readOnly: true
-				},
-				_idaMaxDate: {
-					type: Date,
-					computed: '_fechaIdaMaxDate(fechaVuelta)'
-				},
-				_vueltaMinDate: {
-					type: Date,
-					value: function () {
-						return this._getToday();
-					},
-					computed: '_fechaIdaMinDate(fechaIda)'
-				}
+            is: 'travel-info',
 
+            properties: {
+                editMode: {
+                    type: Boolean,
+                    value: false
+                },
+                headerIcon: {
+                    type: String,
+                    computed: '_headerIcon(editMode)'
+                },
+                municipio_code: {
+                    type: String,
+                    value: 'administrative_area_level_1',
+                    readOnly: true
+                },
+                ciudad_code: {
+                    type: String,
+                    value: 'locality',
+                    readOnly: true
+                },
+                pais_code: {
+                    type: String,
+                    value: 'country',
+                    readOnly: true
+                },
+                paginaHostales: {
+                    type: String,
+                    value: 'http://www.spanish.hostelworld.com/',
+                    readOnly: true
+                },
+                paginaVuelos: {
+                    type: String,
+                    value: 'https://www.kayak.es/flights/',
+                    readOnly: true
+                },
+                _idaMinDate: {
+                    type: Date,
+                    value: function() {
+                        return this._getToday();
+                    },
+                    readOnly: true
+                },
+                _idaMaxDate: {
+                    type: Date,
+                    computed: '_fechaIdaMaxDate(fechaVuelta)'
+                },
+                _vueltaMinDate: {
+                    type: Date,
+                    value: function() {
+                        return this._getToday();
+                    },
+                    computed: '_fechaIdaMinDate(fechaIda)'
+                },
+                previousContent: Object
+            },
 
-			},
-
-			observers: [
+            observers: [
                 '_fechaIdaChanged(fechaIda)'
             ],
 
-			attached: function () {},
+            attached: function() {},
 
-			_getToday: function () {
-				var today = new Date();
-				today.setHours(0);
-				today.setMinutes(0);
-				today.setSeconds(0);
-				today.setMilliseconds(0);
-				return today;
-			},
-
-			_fechaIdaMaxDate: function (fechaVuelta) {
-				fechaVuelta.setHours(23);
-				fechaVuelta.setMinutes(59);
-				fechaVuelta.setSeconds(59);
-				fechaVuelta.setMilliseconds(999);
-				return fechaVuelta;
-			},
-
-			_fechaIdaMinDate: function (fechaIda) {
-				if (fechaIda) {
-					return fechaIda;
-				} else {
-					return this.idaMinDate;
-				}
-			},
-
-			_fechaIdaChanged: function (fechaIda) {
-				if (!this.fechaVuelta) {
-					this.$.fecha_vuelta.defaultDate = this.$.fecha_vuelta.minDate;
-				}
-			},
-
-			_headerIcon: function (editMode) {
-				if (editMode) {
-					return 'done';
-				} else {
-					return 'editor:mode-edit';
-				}
-			},
-
-			saveChanges: function () {
-				this.validateAll();
-				if (this.$.ciudad_salida.invalid ||
-					this.$.ciudad_destino.invalid ||
-					this.$.fecha_ida.invalid ||
-					this.$.fecha_vuelta.invalid ||
-					this.$.personas.invalid) {
-                    this.fire('content_saved', {content: this.getDatos()});
-				} else {
-					this.editMode = !this.editMode;
-				}
-			},
-
-			validateAll: function () {
-				this.$.ciudad_salida.validate();
-				this.$.ciudad_destino.validate();
-				this.$.fecha_ida.validate();
-				this.$.fecha_vuelta.validate();
-				this.$.personas.validate();
-			},
-
-			toggleEditMode: function () {
-				if (this.editMode) {
-					this.saveChanges();
-				} else {
-					this.editMode = !this.editMode;
-				}
-			},
-
-			_busca: function (placeInfo, type) {
-				for (var i = 0; i < placeInfo.address_components.length; i++) {
-					var addressTypes = placeInfo.address_components[i].types;
-					if (addressTypes.indexOf(type) > -1) {
-						var val = placeInfo.address_components[i].long_name;
-						return val;
-					}
-				}
-			},
-
-			getDatos: function () {
-				var result = {};
-				result.pais = this.$.ciudad_destino.getPlace() ? this._busca(this.$.ciudad_destino.getPlace(), this.municipio_code) : undefined;
-				result.salida = this.$.ciudad_salida.getPlace() ? this.$.ciudad_salida.getPlace().name : undefined;
-				result.destino = this.$.ciudad_destino.getPlace() ? this.$.ciudad_destino.getPlace().name : undefined;
-				result.ida = this.fechaIda;
-				result.vuelta = this.fechaVuelta;
-				result.personas = this.$.personas.value;
-				return result;
-			},
-            
-            setDatos: function(content) {
-                this.$.ciudad_salida.place = content.ciudad_salida;
-				this.$.ciudad_destino.place = content.ciudad_destino;
-				this.$.fecha_ida.date = content.fecha_ida;
-				this.$.fecha_vuelta.date = content.fecha_vuelta;
-				this.$.personas.value = content.personas;
+            _getToday: function() {
+                var today = new Date();
+                today.setHours(0);
+                today.setMinutes(0);
+                today.setSeconds(0);
+                today.setMilliseconds(0);
+                return today;
             },
 
-			testURL: function (url, success, error) {
-				$.ajax({
-					url: url,
-					dataType: 'jsonp',
-					jsonpCallback: null,
-					statusCode: {
-						200: function () {
-							success();
-						},
-						404: function () {
-							error();
-						}
-					}
-				});
-			},
+            _fechaIdaMaxDate: function(fechaVuelta) {
+                fechaVuelta.setHours(23);
+                fechaVuelta.setMinutes(59);
+                fechaVuelta.setSeconds(59);
+                fechaVuelta.setMilliseconds(999);
+                return fechaVuelta;
+            },
 
-			buscarVuelos: function () {
-				var datos = this.getDatos();
-				var urlVuelos = this.paginaVuelos;
+            _fechaIdaMinDate: function(fechaIda) {
+                if (fechaIda) {
+                    return fechaIda;
+                } else {
+                    return this.idaMinDate;
+                }
+            },
 
-				// Hay que buscar una manera de obtener el código IATA de la ciudad y pasarlo a la url. Por el momento se abre la web de Kayak sin ningún dato.
-				window.open(urlVuelos);
+            _fechaIdaChanged: function(fechaIda) {
+                if (!this.fechaVuelta) {
+                    this.$.fecha_vuelta.defaultDate = this.$.fecha_vuelta.minDate;
+                }
+            },
 
-				/*if (datos.salida && datos.destino && datos.ida && datos.vuelta && datos.personas) {
-					//mad-lis/2017-03-24/2017-03-28/6adults
-					urlVuelos += datos.salida.substr(0, 3);
-					urlVuelos += "-";
-					urlVuelos += datos.destino.substr(0, 3);
-					urlVuelos += "/";
-					urlVuelos += datos.ida;
-					urlVuelos += "/";
-					urlVuelos += datos.vuelta;
-					urlVuelos += "/";
-					urlVuelos += datos.personas + "adults";
-				}*/
-				//				console.log(urlVuelos);
+            _headerIcon: function(editMode) {
+                if (editMode) {
+                    return 'done';
+                } else {
+                    return 'editor:mode-edit';
+                }
+            },
 
-				//    testURL(urlVuelos,
-				//        function () {
-				//            window.open(urlVuelos);
-				//        },
-				//        function () {
-				//            window.open(construyeURLVuelos(true));
-				//        }
-				//    );
+            saveChanges: function() {
+                this.validateAll();
+                if (!this.$.ciudad_salida.invalid &&
+                    !this.$.ciudad_destino.invalid &&
+                    !this.$.fecha_ida.invalid &&
+                    !this.$.fecha_vuelta.invalid &&
+                    !this.$.personas.invalid) {
+                    console.log('valid');
+                    this.fire('content_saved', {
+                        content: this.getDatos()
+                    });
+                    this.editMode = !this.editMode;
+                } 
+            },
 
-			},
+            validateAll: function() {
+                this.$.ciudad_salida.validate();
+                this.$.ciudad_destino.validate();
+                this.$.fecha_ida.validate();
+                this.$.fecha_vuelta.validate();
+                this.$.personas.validate();
+            },
 
-			buscarHostales: function () {
-				var datos = this.getDatos();
-				var urlHostales = this.paginaHostales;
-				if (datos.pais && datos.destino && datos.ida && datos.vuelta && datos.personas) {
-					//search?country=Escocia&city=Edimburgo&date_from=2017-03-24&date_to=2017-03-28&number_of_guests=6
-					urlHostales += "search?";
-					urlHostales += "country=" + datos.pais;
-					urlHostales += "&city=" + datos.destino;
-					urlHostales += "&date_from=" + datos.ida;
-					urlHostales += "&date_to=" + datos.vuelta;
-					urlHostales += "&number_of_guests=" + datos.personas;
-				}
-				//				console.log(urlHostales);
-				this.testURL(urlHostales,
-					function () {
-						window.open(urlHostales);
-					},
-					function () {
-						window.open(this.paginaHostales);
-					}
-				);
-			}
+            toggleEditMode: function() {
+                if (this.editMode) {
+                    this.saveChanges();
+                } else {
+                    this.editMode = !this.editMode;
+                }
+            },
 
-		});
-	</script>
+            _busca: function(placeInfo, type) {
+                for (var i = 0; i < placeInfo.address_components.length; i++) {
+                    var addressTypes = placeInfo.address_components[i].types;
+                    if (addressTypes.indexOf(type) > -1) {
+                        var val = placeInfo.address_components[i].long_name;
+                        return val;
+                    }
+                }
+            },
+
+            getDatos: function() {
+                var result = {};
+                result.ciudadSalida = this.$.ciudad_salida.getPlace() ? this.$.ciudad_salida.getPlace().formatted_address : this.previousContent.ciudadSalida;
+                result.ciudadDestino = this.$.ciudad_destino.getPlace() ? this.$.ciudad_destino.getPlace().formatted_address : this.previousContent.ciudadDestino;
+                result.pais = this.$.ciudad_destino.getPlace() ? this._busca(this.$.ciudad_destino.getPlace(), this.municipio_code) : this.previousContent.pais;
+                result.salida = this.$.ciudad_salida.getPlace() ? this.$.ciudad_salida.getPlace().name : this.previousContent.salida;
+                result.destino = this.$.ciudad_destino.getPlace() ? this.$.ciudad_destino.getPlace().name : this.previousContent.destino;
+                result.ida = this.fechaIda;
+                result.vuelta = this.fechaVuelta;
+                result.personas = this.$.personas.value;
+                console.log(result);
+                return result;
+            },
+
+            setDatos: function(content) {
+                this.$.ciudad_salida.place = content.ciudad_salida;
+                this.$.ciudad_destino.place = content.ciudad_destino;
+                this.$.fecha_ida.date = content.fecha_ida;
+                this.$.fecha_vuelta.date = content.fecha_vuelta;
+                this.$.personas.value = content.personas;
+            },
+
+            testURL: function(url, success, error) {
+                $.ajax({
+                    url: url,
+                    dataType: 'jsonp',
+                    jsonpCallback: null,
+                    statusCode: {
+                        200: function() {
+                            success();
+                        },
+                        404: function() {
+                            error();
+                        }
+                    }
+                });
+            },
+
+            buscarVuelos: function() {
+                var datos = this.getDatos();
+                var urlVuelos = this.paginaVuelos;
+
+                // Hay que buscar una manera de obtener el código IATA de la ciudad y pasarlo a la url. Por el momento se abre la web de Kayak sin ningún dato.
+                window.open(urlVuelos);
+
+                /*if (datos.salida && datos.destino && datos.ida && datos.vuelta && datos.personas) {
+                	//mad-lis/2017-03-24/2017-03-28/6adults
+                	urlVuelos += datos.salida.substr(0, 3);
+                	urlVuelos += "-";
+                	urlVuelos += datos.destino.substr(0, 3);
+                	urlVuelos += "/";
+                	urlVuelos += datos.ida;
+                	urlVuelos += "/";
+                	urlVuelos += datos.vuelta;
+                	urlVuelos += "/";
+                	urlVuelos += datos.personas + "adults";
+                }*/
+                //				console.log(urlVuelos);
+
+                //    testURL(urlVuelos,
+                //        function () {
+                //            window.open(urlVuelos);
+                //        },
+                //        function () {
+                //            window.open(construyeURLVuelos(true));
+                //        }
+                //    );
+
+            },
+
+            buscarHostales: function() {
+                var datos = this.getDatos();
+                var urlHostales = this.paginaHostales;
+                if (datos.pais && datos.destino && datos.ida && datos.vuelta && datos.personas) {
+                    //search?country=Escocia&city=Edimburgo&date_from=2017-03-24&date_to=2017-03-28&number_of_guests=6
+                    urlHostales += "search?";
+                    urlHostales += "country=" + datos.pais;
+                    urlHostales += "&city=" + datos.destino;
+                    urlHostales += "&date_from=" + datos.ida;
+                    urlHostales += "&date_to=" + datos.vuelta;
+                    urlHostales += "&number_of_guests=" + datos.personas;
+                }
+                //				console.log(urlHostales);
+                this.testURL(urlHostales,
+                    function() {
+                        window.open(urlHostales);
+                    },
+                    function() {
+                        window.open(this.paginaHostales);
+                    }
+                );
+            }
+
+        });
+
+    </script>
 </dom-module>

@@ -10,59 +10,63 @@
     <template>
 
         <style is="custom-style" include="iron-positioning">
-            
             .flex-vertical {
                 @apply(--layout-vertical);
             }
-            
+
             .flexchild {
                 @apply(--layout-flex);
             }
-            
+
             .flex-horizontal-with-ratios {
                 @apply(--layout-horizontal);
             }
-            
+
             .flexlittle {
                 @apply(--layout-flex);
             }
-            
+
             .flexmedium {
                 @apply(--layout-flex-2);
             }
-            
+
             .flexlarge {
                 @apply(--layout-flex-3);
             }
-            
+
+            #datos_viaje {
+                border-right: 2px solid var(--dark-theme-background-color);
+            }
+
             #datos_viaje > div {
                 background-color: var(--dark-theme-background-color);
             }
-            
-            #calendario {
-                background-color: var(--paper-grey-100);
-/*                @apply(--layout-horizontal);*/
+
+            #calendar {
+                background-color: var(--paper-grey-300);
+                /*                @apply(--layout-horizontal);*/
             }
-            
+
             #datos_evento {
                 background-color: var(--dark-theme-background-color);
             }
-            
+
             travel-info {
                 --travel-info-form-color: var(--dark-theme-text-color);
                 /*            --travel-info-form-accent-color: var(--accent-color);*/
                 --travel-info-form-value-color: var(--dark-theme-text-color);
                 --travel-info-form-invalid-color: var(--paper-red-500);
             }
-            
+
             .container {
                 height: 100%;
             }
-            
-            #datos_viaje, #calendario {
+
+            #datos_viaje,
+            #calendar {
                 overflow-y: auto;
             }
-            
+
         </style>
 
         <div class="container flex-horizontal-with-ratios">
@@ -73,8 +77,8 @@
                 <travel-mate-list class="flexchild" mates="{{mates}}"></travel-mate-list>
             </div>
 
-            <div id="calendario" class="flexlarge container flex-vertical">
-                <travel-calendar-day></travel-calendar-day>
+            <div id="calendar" class="flexlarge container flex-vertical">
+                <!--                <travel-calendar-day></travel-calendar-day>-->
             </div>
 
             <div id="datos_evento" class="flexlittle">
@@ -88,18 +92,112 @@
         Polymer({
 
             is: 'travel-planner',
-            
+
             properties: {
-                mates: Array
+                travelInfo: Array,
+                mates: Array,
+                activities: Array
             },
 
             attached: function() {
                 this.$.travel_form.addEventListener('content_saved', function(e) {
                     console.log(e.detail.content);
-                    window.localStorage.setItem('travelInfo', e.detail.content);
+                    this.travelInfo = e.detail.content;
                 });
-                
-                this.mates = [{name:"Jose", id:"1"},{name:"Isma", id:"2"},{name:"Ruben", id:"3"},{name:"Adri", id:"4"},{name:"Alex", id:"5"}];
+
+                this.loadTravel();
+
+                //                this.createCalendar(activities);
+            },
+
+            loadTravel: function() {
+
+                this.travelInfo = {
+                    ciudadSalida: "Madrid, España",
+                    ciudadDestino: "Edimburgo, Reino Unido",
+                    pais: "Escocia",
+                    salida: "Madrid",
+                    destino: "Edimburgo",
+                    ida: new Date(2017, 3, 24),
+                    vuelta: new Date(2017, 3, 28, 23, 59, 59),
+                    personas: 6,
+                };
+
+                this.mates = [{
+                    name: "Jose",
+                    id: "1",
+                    avatar: "/images/rana.jpg"
+                }, {
+                    name: "Isma",
+                    id: "2",
+                    avatar: "/images/perro.jpg"
+                }, {
+                    name: "Ruben",
+                    id: "3",
+                    avatar: "/images/gato.jpg"
+                }, {
+                    name: "Adri",
+                    id: "4",
+                    avatar: "/images/serpiente.jpg"
+                }, {
+                    name: "Alex",
+                    id: "5",
+                    avatar: "/images/tortuga.jpg"
+                }];
+
+                this.activities = [{
+                    start: new Date(2017, 3, 24, 11),
+                    end: new Date(2017, 3, 24, 13, 30),
+                    name: "Test 1",
+                    color: "#FF1744"
+                }, {
+                    start: new Date(2017, 3, 24, 15, 15),
+                    end: new Date(2017, 3, 24, 18),
+                    name: "Test 2",
+                    description: "haisdh iasdf shduifs sdfjhdjfkhsd",
+                    color: "#D500F9"
+                }, {
+                    start: new Date(2017, 3, 25, 16),
+                    end: new Date(2017, 3, 25, 19),
+                    name: "Test",
+                    description: "hjia sda sdguiahsd gashdg",
+                    color: "#FF1744"
+                }, {
+                    start: new Date(2017, 3, 27, 6),
+                    end: new Date(2017, 3, 27, 9, 30),
+                    name: "Cosa",
+                    color: "#3D5AFE"
+                }, {
+                    start: new Date(2017, 3, 27, 15, 15),
+                    end: new Date(2017, 3, 27, 18),
+                    name: "Hola",
+                    description: "ahsjd fas dgasgd ahihksdv 89q qfj",
+                    color: "#2979FF"
+                }, {
+                    start: new Date(2017, 3, 27, 18, 30),
+                    end: new Date(2017, 3, 27, 24),
+                    name: "Caca",
+                    color: "#00E5FF"
+                }, {
+                    start: new Date(2017, 3, 28, 9),
+                    end: new Date(2017, 3, 28, 12),
+                    name: "Fin",
+                    color: "#FFEA00"
+                }];
+
+            },
+
+            createCalendar: function(days) {
+                days.sort(function(a, b) {
+                    return a.start - b.start;
+                });
+                for (var i = 0; i < days.length; i++) {
+                    var day = days[i];
+                    var calendarDay = document.createElement('travel-calendar-day');
+                    calendarDay.date = day.date;
+                    calendarDay.activities = day.activities;
+                    this.$.calendar.appendChild(calendarDay);
+                }
             }
 
         });
