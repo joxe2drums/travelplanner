@@ -1,0 +1,59 @@
+<dom-module id="header-styles">
+    <template>
+        <style>
+            app-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 300px;
+                color: #fff;
+                background-color: var(--paper-teal-500);
+                --app-header-background-front-layer: {
+                    background-image: url(https://cdn.civitatis.com/guias/edimburgo/fotos/edimburgo.jpg);
+                    background-position: center center;
+                }
+                ;
+            }
+            
+            paper-icon-button {
+                --paper-icon-button-ink-color: white;
+            }
+            
+            app-toolbar.tall {
+                height: 300px;
+            }
+            
+            #calendar {
+                padding-top: 300px;
+            }
+            
+            [main-title] {
+                font-weight: lighter;
+                margin-left: 108px;
+            }
+            
+            [condensed-title] {
+                font-weight: lighter;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            [condensed-title] i {
+                font-weight: 100;
+                font-style: normal;
+            }
+            
+            @media (max-width: 639px) {
+                [main-title] {
+                    margin-left: 50px;
+                    font-size: 30px;
+                }
+                [condensed-title] {
+                    font-size: 15px;
+                }
+            }
+
+        </style>
+    </template>
+</dom-module>

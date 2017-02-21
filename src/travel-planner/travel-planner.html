@@ -1,90 +1,69 @@
-<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
 <link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="/bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="/bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="/bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
 
 <link rel="import" href="/src/travel-info/travel-info.html">
 <link rel="import" href="/src/travel-mate-list/travel-mate-list.html">
 <link rel="import" href="/src/travel-calendar/travel-calendar-day.html">
+<link rel="import" href="/src/flex-styles.html">
+<link rel="import" href="header-styles.html">
 
 <dom-module id="travel-planner">
     <template>
 
-        <style is="custom-style" include="iron-positioning">
-            .flex-vertical {
-                @apply(--layout-vertical);
-            }
-
-            .flexchild {
-                @apply(--layout-flex);
-            }
-
-            .flex-horizontal-with-ratios {
-                @apply(--layout-horizontal);
-            }
-
-            .flexlittle {
-                @apply(--layout-flex);
-            }
-
-            .flexmedium {
-                @apply(--layout-flex-2);
-            }
-
-            .flexlarge {
-                @apply(--layout-flex-3);
-            }
-
-            #datos_viaje {
-                border-right: 2px solid var(--dark-theme-background-color);
-            }
-
+        <style is="custom-style" include="flex-styles header-styles">
+            
             #datos_viaje > div {
                 background-color: var(--dark-theme-background-color);
             }
-
-            #calendar {
-                background-color: var(--paper-grey-300);
-                /*                @apply(--layout-horizontal);*/
-            }
-
+            
             #datos_evento {
                 background-color: var(--dark-theme-background-color);
             }
-
+            
             travel-info {
                 --travel-info-form-color: var(--dark-theme-text-color);
-                /*            --travel-info-form-accent-color: var(--accent-color);*/
                 --travel-info-form-value-color: var(--dark-theme-text-color);
                 --travel-info-form-invalid-color: var(--paper-red-500);
             }
-
-            .container {
-                height: 100%;
-            }
-
-            #datos_viaje,
+            
             #calendar {
-                overflow-y: auto;
             }
 
         </style>
 
-        <div class="container flex-horizontal-with-ratios">
-            <div id="datos_viaje" class="flexlittle container flex-vertical">
+        <iron-ajax auto url="/data.json" on-response="handleResponse" last-response="{{data}}"></iron-ajax>
+
+        <app-header condenses fixed effects="waterfall resize-title blend-background parallax-background">
+            <app-toolbar>
+                <paper-icon-button icon="info" on-click="toggleTravelInfo"></paper-icon-button>
+                <h4 condensed-title>Viaje a Edimburgo</h4>
+                <paper-icon-button icon="flight-takeoff"></paper-icon-button>
+                <paper-icon-button icon="maps:hotel"></paper-icon-button>
+            </app-toolbar>
+            <app-toolbar class="tall">
+                <h1 main-title>Viaje a Edimburgo</h1>
+            </app-toolbar>
+        </app-header>
+
+        <app-drawer id="info_drawer" swipe-open>
+            <div id="datos_viaje" class="container flex-vertical">
                 <div>
-                    <travel-info id="travel_form"></travel-info>
+                    <travel-info id="travel_form" content="{{travelInfo}}" on-content-saved="travelInfoSaved"></travel-info>
                 </div>
                 <travel-mate-list class="flexchild" mates="{{mates}}"></travel-mate-list>
             </div>
+        </app-drawer>
 
-            <div id="calendar" class="flexlarge container flex-vertical">
-                <!--                <travel-calendar-day></travel-calendar-day>-->
+            <div id="calendar" class="flex-vertical">
             </div>
 
-            <div id="datos_evento" class="flexlittle">
-
-            </div>
-        </div>
 
     </template>
 
@@ -94,108 +73,77 @@
             is: 'travel-planner',
 
             properties: {
-                travelInfo: Array,
+                travelInfo: Object,
+                activities: Array,
                 mates: Array,
-                activities: Array
+                data: Object
             },
 
-            attached: function() {
-                this.$.travel_form.addEventListener('content_saved', function(e) {
-                    console.log(e.detail.content);
-                    this.travelInfo = e.detail.content;
-                });
+            observers: [
+                'createCalendar(activities)'
+            ],
 
-                this.loadTravel();
+            attached: function() {},
 
-                //                this.createCalendar(activities);
+            travelInfoSaved: function(e) {
+                this.travelInfo = e.detail.content;
             },
 
-            loadTravel: function() {
-
-                this.travelInfo = {
-                    ciudadSalida: "Madrid, España",
-                    ciudadDestino: "Edimburgo, Reino Unido",
-                    pais: "Escocia",
-                    salida: "Madrid",
-                    destino: "Edimburgo",
-                    ida: new Date(2017, 3, 24),
-                    vuelta: new Date(2017, 3, 28, 23, 59, 59),
-                    personas: 6,
-                };
-
-                this.mates = [{
-                    name: "Jose",
-                    id: "1",
-                    avatar: "/images/rana.jpg"
-                }, {
-                    name: "Isma",
-                    id: "2",
-                    avatar: "/images/perro.jpg"
-                }, {
-                    name: "Ruben",
-                    id: "3",
-                    avatar: "/images/gato.jpg"
-                }, {
-                    name: "Adri",
-                    id: "4",
-                    avatar: "/images/serpiente.jpg"
-                }, {
-                    name: "Alex",
-                    id: "5",
-                    avatar: "/images/tortuga.jpg"
-                }];
-
-                this.activities = [{
-                    start: new Date(2017, 3, 24, 11),
-                    end: new Date(2017, 3, 24, 13, 30),
-                    name: "Test 1",
-                    color: "#FF1744"
-                }, {
-                    start: new Date(2017, 3, 24, 15, 15),
-                    end: new Date(2017, 3, 24, 18),
-                    name: "Test 2",
-                    description: "haisdh iasdf shduifs sdfjhdjfkhsd",
-                    color: "#D500F9"
-                }, {
-                    start: new Date(2017, 3, 25, 16),
-                    end: new Date(2017, 3, 25, 19),
-                    name: "Test",
-                    description: "hjia sda sdguiahsd gashdg",
-                    color: "#FF1744"
-                }, {
-                    start: new Date(2017, 3, 27, 6),
-                    end: new Date(2017, 3, 27, 9, 30),
-                    name: "Cosa",
-                    color: "#3D5AFE"
-                }, {
-                    start: new Date(2017, 3, 27, 15, 15),
-                    end: new Date(2017, 3, 27, 18),
-                    name: "Hola",
-                    description: "ahsjd fas dgasgd ahihksdv 89q qfj",
-                    color: "#2979FF"
-                }, {
-                    start: new Date(2017, 3, 27, 18, 30),
-                    end: new Date(2017, 3, 27, 24),
-                    name: "Caca",
-                    color: "#00E5FF"
-                }, {
-                    start: new Date(2017, 3, 28, 9),
-                    end: new Date(2017, 3, 28, 12),
-                    name: "Fin",
-                    color: "#FFEA00"
-                }];
-
+            toggleTravelInfo: function(e) {
+                this.$.info_drawer.toggle();
             },
 
-            createCalendar: function(days) {
-                days.sort(function(a, b) {
+            handleResponse: function(e, request) {
+                this.travelInfo = this.data.travels[0];
+                this.activities = this.data.travels[0].activities;
+                this.getMates(this.data.travels[0].mates);
+            },
+
+            getMates: function(mates) {
+                var newMates = new Array();
+                for (var i = 0; i < mates.length; i++) {
+                    for (var j = 0; j < this.data.users.length; j++) {
+                        if (this.data.users[j].id == mates[i].id) {
+                            newMates.push(this.data.users[j]);
+                            break;
+                        }
+                    }
+                }
+                this.mates = newMates;
+            },
+
+            createCalendar: function(activities) {
+
+                if (!this.travelInfo || !this.travelInfo.ida || !this.travelInfo.vuelta) {
+                    return;
+                }
+                //                moment.locale('es');
+                const millisInDay = (1000 * 60 * 60 * 24);
+                var days = new Array();
+
+                var current = moment(this.travelInfo.ida);
+                var ultimo = moment(this.travelInfo.vuelta);
+                while (moment(current).isBefore(ultimo, 'day')) {
+                    days.push(moment(current));
+                    //                    console.log(moment(dia).format());
+                    current += millisInDay;
+                }
+                days.push(moment(current));
+
+                //                return;
+
+                activities.sort(function(a, b) {
                     return a.start - b.start;
                 });
+
                 for (var i = 0; i < days.length; i++) {
-                    var day = days[i];
                     var calendarDay = document.createElement('travel-calendar-day');
-                    calendarDay.date = day.date;
-                    calendarDay.activities = day.activities;
+                    calendarDay.date = new Date(days[i]);
+                    var dayActivities = new Array();
+                    while (activities.length > 0 && moment(activities[0].start).isSame(calendarDay.date, 'day')) {
+                        dayActivities.push(activities.shift());
+                    }
+                    calendarDay.activities = dayActivities;
                     this.$.calendar.appendChild(calendarDay);
                 }
             }

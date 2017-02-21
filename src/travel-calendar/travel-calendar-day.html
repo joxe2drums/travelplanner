@@ -1,5 +1,3 @@
-<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="/bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="/bower_components/neon-animation/neon-animation-runner-behavior.html">
 <link rel="import" href="/bower_components/neon-animation/animations/scale-up-animation.html">
@@ -8,36 +6,36 @@
 <link rel="import" href="/bower_components/iron-icons/hardware-icons.html">
 <link rel="import" href="travel-calendar-activity.html">
 <link rel="import" href="animatables/calendar-fab.html">
+<link rel="import" href="/src/flex-styles.html">
 
 <dom-module id="travel-calendar-day">
     <template>
 
-        <style is="custom-style" include="iron-positioning">
+        <style is="custom-style" include="flex-styles">
             :host {
+                display: inline-block;
                 width: 100%;
                 border-bottom: 2px solid var(--divider-color);
-                overflow: hidden;
+/*                overflow: hidden;*/
                 height: 170px;
                 min-height: 170px;
                 font-family: Roboto;
             }
             
-            .flex-horizontal {
-                @apply(--layout-horizontal);
-            }
-            
             #main_container {
                 background-color: var(--paper-grey-100);
-                position: relative;
+/*                position: relative;*/
                 height: 100%;
             }
             
+/*
             #fab_new_activity {
                 position: absolute;
                 right: 12px;
                 top: 57px;
                 z-index: 3;
             }
+*/
             
             .container {
                 width: 100%;
@@ -46,39 +44,42 @@
             
             #day_header {
                 background-color: var(--primary-background-color);
-                box-shadow: 2px 0 6px 0 rgba(0, 0, 0, 0.1), 4px 0 12px 0 rgba(0, 0, 0, 0.15);
                 text-align: center;
-                z-index: 3;
+                height: 100%;
             }
             
+/*
             #day_header paper-icon-button {
                 position: relative;
                 bottom: -5px;
             }
+*/
             
             .text-vertical {
                 writing-mode: tb-rl;
                 transform: rotate(180deg);
                 padding-top: 12px;
                 padding-bottom: 20px;
+                position: static;
             }
             
         </style>
 
-        <div id="main_container" class="container flex-horizontal">
+        <div id="main_container" class="flex-horizontal flex-center">
             <div id="day_header">
                 <p class="text-vertical">[[dateFormatted]]</p>
                 <paper-icon-button icon="hardware:keyboard-arrow-down"></paper-icon-button>
             </div>
             <div id="activity_compact" class="container flex-horizontal">
 
-                <!--
+                
+<!--
                 <travel-calendar-activity color="#FF1744" name="Ejemplo" duration="160" description="test etst eeuw ef"></travel-calendar-activity>
                 <travel-calendar-activity name="Test g d dfg dfh  hdfhd dh" duration="300" description="test etst eeuw ef"></travel-calendar-activity>
                 <travel-calendar-activity color="#FFEA00" name="Holaaaaaaaaaaaaaaaaaa" duration="230" description="test etst eeuw ef"></travel-calendar-activity>
 -->
 
-                <calendar-fab id="fab_new_activity" icon="add" hide="true"></calendar-fab>
+
             </div>
         </div>
 
@@ -99,7 +100,7 @@
             },
 
             attached: function() {
-                $(this.$.activity_compact).hover(this._mouseIn, this._mouseOut);
+//                $(this.$.activity_compact).hover(this._mouseIn, this._mouseOut);
             },
 
             behaviors: [
@@ -115,7 +116,7 @@
             },
 
             _formatDate: function(date) {
-                return moment(date).format('DD/MM/YYYY');
+                return moment(date).format('DD/MM');
             },
 
             _mouseIn: function(e) {
@@ -132,10 +133,10 @@
                 });
                 var previousDate = this.date;
                 for (var i = 0; i < activities.length; i++) {
-
+                    
                     var activity = activities[i];
                     
-                    if (activity.start - previousDate > 0) {
+                    if (moment(activity.start).isAfter(previousDate)) {
                         var calendarActivity = document.createElement('travel-calendar-activity');
                         calendarActivity.start = previousDate;
                         calendarActivity.end = activity.start;

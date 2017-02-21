@@ -10,7 +10,9 @@
     "app-layout": "PolymerElements/app-layout#^0.10.6",
     "paper-date-picker": "bendavis78/paper-date-picker#^1.2.0",
     "iron-validator-behavior": "PolymerElements/iron-validator-behavior#^1.0.1",
-    "paper-fab": "PolymerElements/paper-fab#^1.2.1"
+    "paper-fab": "PolymerElements/paper-fab#^1.2.1",
+    "paper-drawer-panel": "PolymerElements/paper-drawer-panel#^1.0.11",
+    "paper-tabs": "PolymerElements/paper-tabs#^1.8.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

@@ -75,7 +75,8 @@
             },
 
             _conputeDuration: function(start, end) {
-                return Math.round((end - start) / 60000);
+//                console.log('_conputeDuration: ' + (new Date(end) - new Date(start)));
+                return Math.round((new Date(end) - new Date(start)) / 60000);
             },
 
             emptyChanged: function(empty) {
@@ -84,7 +85,7 @@
             },
 
             drawActivity: function(start, end) {
-                var minutesOnDay = 24 * 60;
+                const minutesOnDay = 24 * 60;
                 var percentageMinutesOnDay = 100 / minutesOnDay;
                 this.style.width = (this.duration * percentageMinutesOnDay) + '%';
             },

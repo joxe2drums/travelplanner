@@ -103,6 +103,7 @@
             is: 'travel-info',
 
             properties: {
+                content: Object,
                 editMode: {
                     type: Boolean,
                     value: false
@@ -158,7 +159,8 @@
             },
 
             observers: [
-                '_fechaIdaChanged(fechaIda)'
+                '_fechaIdaChanged(fechaIda)',
+                'setDatos(content)'
             ],
 
             attached: function() {},
@@ -209,12 +211,14 @@
                     !this.$.fecha_ida.invalid &&
                     !this.$.fecha_vuelta.invalid &&
                     !this.$.personas.invalid) {
-                    console.log('valid');
-                    this.fire('content_saved', {
-                        content: this.getDatos()
+
+                    this.content = this.getDatos();
+                    this.fire('content-saved', {
+                        content: this.content
                     });
+
                     this.editMode = !this.editMode;
-                } 
+                }
             },
 
             validateAll: function() {
@@ -245,23 +249,22 @@
 
             getDatos: function() {
                 var result = {};
-                result.ciudadSalida = this.$.ciudad_salida.getPlace() ? this.$.ciudad_salida.getPlace().formatted_address : this.previousContent.ciudadSalida;
-                result.ciudadDestino = this.$.ciudad_destino.getPlace() ? this.$.ciudad_destino.getPlace().formatted_address : this.previousContent.ciudadDestino;
+                result.ciudadSalida = this.$.ciudad_salida.getPlace() ? this.$.ciudad_salida.getPlace() : this.previousContent.ciudadSalida;
+                result.ciudadDestino = this.$.ciudad_destino.getPlace() ? this.$.ciudad_destino.getPlace() : this.previousContent.ciudadDestino;
                 result.pais = this.$.ciudad_destino.getPlace() ? this._busca(this.$.ciudad_destino.getPlace(), this.municipio_code) : this.previousContent.pais;
                 result.salida = this.$.ciudad_salida.getPlace() ? this.$.ciudad_salida.getPlace().name : this.previousContent.salida;
                 result.destino = this.$.ciudad_destino.getPlace() ? this.$.ciudad_destino.getPlace().name : this.previousContent.destino;
                 result.ida = this.fechaIda;
                 result.vuelta = this.fechaVuelta;
                 result.personas = this.$.personas.value;
-                console.log(result);
                 return result;
             },
 
             setDatos: function(content) {
-                this.$.ciudad_salida.place = content.ciudad_salida;
-                this.$.ciudad_destino.place = content.ciudad_destino;
-                this.$.fecha_ida.date = content.fecha_ida;
-                this.$.fecha_vuelta.date = content.fecha_vuelta;
+                this.$.ciudad_salida.place = content.ciudadSalida;
+                this.$.ciudad_destino.place = content.ciudadDestino;
+                this.$.fecha_ida.date = new Date(content.ida);
+                this.$.fecha_vuelta.date = new Date(content.vuelta);
                 this.$.personas.value = content.personas;
             },
 
@@ -321,8 +324,8 @@
                     urlHostales += "search?";
                     urlHostales += "country=" + datos.pais;
                     urlHostales += "&city=" + datos.destino;
-                    urlHostales += "&date_from=" + datos.ida;
-                    urlHostales += "&date_to=" + datos.vuelta;
+                    urlHostales += "&date_from=" + moment(datos.ida).format('YYYY-MM-DD');
+                    urlHostales += "&date_to=" + moment(datos.vuelta).format('YYYY-MM-DD');
                     urlHostales += "&number_of_guests=" + datos.personas;
                 }
                 //				console.log(urlHostales);

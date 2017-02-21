@@ -1,0 +1,23 @@
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<dom-module id="flex-styles">
+    <template>
+        <style include="iron-positioning">
+            .flex-vertical {
+                @apply(--layout-vertical);
+            }
+            
+            .flexchild {
+                @apply(--layout-flex);
+            }
+            
+            .flex-horizontal {
+                @apply(--layout-horizontal);
+            }
+            
+            .flex-center {
+                @apply(--layout-center);
+            }
+        </style>
+    </template>
+</dom-module>

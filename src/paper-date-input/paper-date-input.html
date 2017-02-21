@@ -80,9 +80,12 @@
                 '_dateChanged(date)',
 				'_disabledChanged(disabled)'
             ],
+            
+            created: function() {
+				moment.locale('es');
+            },
 
 			attached: function () {
-				moment.locale('es');
 				this.querySelector('paper-input input').disabled = true;
 			},
 

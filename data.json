@@ -1,0 +1,260 @@
+{
+    "travels": [
+        {
+            "id": "1",
+            "ciudadSalida": {
+                "address_components": [{
+                    "long_name": "Madrid",
+                    "short_name": "Madrid",
+                    "types": ["locality", "political"]
+                }, {
+                    "long_name": "Madrid",
+                    "short_name": "Madrid",
+                    "types": ["administrative_area_level_4", "political"]
+                }, {
+                    "long_name": "Área Metropolitalitana y Corredor del Henares",
+                    "short_name": "Área Metropolitalitana y Corredor del Henares",
+                    "types": ["administrative_area_level_3", "political"]
+                }, {
+                    "long_name": "Madrid",
+                    "short_name": "M",
+                    "types": ["administrative_area_level_2", "political"]
+                }, {
+                    "long_name": "Comunidad de Madrid",
+                    "short_name": "Comunidad de Madrid",
+                    "types": ["administrative_area_level_1", "political"]
+                }, {
+                    "long_name": "España",
+                    "short_name": "ES",
+                    "types": ["country", "political"]
+                }],
+                "adr_address": "<span class=\"locality\">Madrid</span>, <span class=\"country-name\">España</span>",
+                "formatted_address": "Madrid, España",
+                "geometry": {
+                    "location": {
+                        "lat": 40.4167754,
+                        "lng": -3.7037901999999576
+                    },
+                    "viewport": {
+                        "south": 40.3120639,
+                        "west": -3.834161799999947,
+                        "north": 40.5638447,
+                        "east": -3.52491150000003
+                    }
+                },
+                "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+                "id": "8e431ef5ad3b7c115999d19fe4aa09e195cae372",
+                "name": "Madrid",
+                "photos": [{
+                    "height": 2988,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/114950910610197969270/photos\">Manuel Cordero</a>"],
+                    "width": 5312
+                }, {
+                    "height": 2592,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/117872580368522191427/photos\">Rodrigo Ladero</a>"],
+                    "width": 4608
+                }, {
+                    "height": 2368,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/116183894027094575365/photos\">Dimitar Georgiev</a>"],
+                    "width": 4208
+                }, {
+                    "height": 2592,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/111321469215409627796/photos\">本田晴久</a>"],
+                    "width": 4608
+                }, {
+                    "height": 1363,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/112760353375381305925/photos\">Carlos González Saavedra</a>"],
+                    "width": 2272
+                }, {
+                    "height": 2988,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/101552515735847975308/photos\">Priss Blafu</a>"],
+                    "width": 5312
+                }, {
+                    "height": 3263,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/113965009307160764037/photos\">Fernanda Luciana</a>"],
+                    "width": 4902
+                }, {
+                    "height": 2322,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/105125958853378632212/photos\">Miucha Liberato</a>"],
+                    "width": 4128
+                }, {
+                    "height": 2592,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/117872580368522191427/photos\">Rodrigo Ladero</a>"],
+                    "width": 4608
+                }],
+                "place_id": "ChIJgTwKgJcpQg0RaSKMYcHeNsQ",
+                "reference": "CmRbAAAA3Vb2AXoHZS_5Mszaqu2tBzap52-0xY-e7KIaHj6ullXO3w1bC9R5Cvh839XzFoxY9M0kCT1H-y3tdGhhJexIQKoecuGUN9b7Osx2MjX1nJYzjnzhp98_OMuShRgHdJk_EhAmht4SwGuRYA7TJm92lAUXGhTs-TTgTWNxvSHgbJOSkCeaa2A5lw",
+                "scope": "GOOGLE",
+                "types": ["locality", "political"],
+                "url": "https://maps.google.com/?q=Madrid,+Espa%C3%B1a&ftid=0xd422997800a3c81:0xc436dec1618c2269",
+                "utc_offset": 60,
+                "vicinity": "Madrid",
+                "html_attributions": []
+            },
+            "ciudadDestino": {
+                "address_components": [{
+                    "long_name": "Edimburgo",
+                    "short_name": "Edimburgo",
+                    "types": ["locality", "political"]
+                }, {
+                    "long_name": "Edinburgh",
+                    "short_name": "Edinburgh",
+                    "types": ["administrative_area_level_2", "political"]
+                }, {
+                    "long_name": "Escocia",
+                    "short_name": "Escocia",
+                    "types": ["administrative_area_level_1", "political"]
+                }, {
+                    "long_name": "Reino Unido",
+                    "short_name": "GB",
+                    "types": ["country", "political"]
+                }],
+                "adr_address": "<span class=\"extended-address\">Edimburgo</span>, <span class=\"country-name\">Reino Unido</span>",
+                "formatted_address": "Edimburgo, Reino Unido",
+                "geometry": {
+                    "location": {
+                        "lat": 55.953252,
+                        "lng": -3.188266999999996
+                    },
+                    "viewport": {
+                        "south": 55.8904228,
+                        "west": -3.333018700000025,
+                        "north": 55.9917083,
+                        "east": -3.0777482999999393
+                    }
+                },
+                "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+                "id": "bbd76ac472f384bf95e692ad86e7e99d2370eb45",
+                "name": "Edimburgo",
+                "photos": [{
+                    "height": 1920,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/109648577636572315039/photos\">L Hill</a>"],
+                    "width": 4912
+                }, {
+                    "height": 2160,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/104028320974776077124/photos\">Pegasus Park</a>"],
+                    "width": 3840
+                }, {
+                    "height": 2250,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/116626849845624315079/photos\">John Riddell</a>"],
+                    "width": 4000
+                }, {
+                    "height": 844,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/105522050558412546132/photos\">dougie barnett</a>"],
+                    "width": 2048
+                }, {
+                    "height": 1704,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/110210148066776722347/photos\">Ali Low</a>"],
+                    "width": 2272
+                }, {
+                    "height": 1275,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/105894723338363383218/photos\">Gábor Pete</a>"],
+                    "width": 1920
+                }, {
+                    "height": 1152,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/117596503094836820498/photos\">YY C</a>"],
+                    "width": 2048
+                }, {
+                    "height": 1836,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/102447796224824301356/photos\">Salim Abdelhamid</a>"],
+                    "width": 3264
+                }, {
+                    "height": 1728,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/113533475120805416190/photos\">Dan Stewart</a>"],
+                    "width": 2592
+                }, {
+                    "height": 4000,
+                    "html_attributions": ["<a href=\"https://maps.google.com/maps/contrib/105211707240641716144/photos\">Isabella De Santis</a>"],
+                    "width": 6016
+                }],
+                "place_id": "ChIJIyaYpQC4h0gRJxfnfHsU8mQ",
+                "reference": "CmRbAAAAnNNM-SnpKZq_6yBXoWO6ciz05FFpgr-Z5xMsQ8gV-_ai7MKden84OQyGEZvvpI62MAShkoh3MhVRg8eQmQwHT-BeeJLEzb42-gNoXaYCqTFGTIEDEyC-G5Wl9wjiO-RkEhBEwJo41sqhVMPcEjNRtKAyGhSEUNZoGDt-Iut8CMKm0beHfArL4w",
+                "scope": "GOOGLE",
+                "types": ["locality", "political"],
+                "url": "https://maps.google.com/?q=Edimburgo,+Reino+Unido&ftid=0x4887b800a5982623:0x64f2147b7ce71727",
+                "utc_offset": 0,
+                "vicinity": "Edimburgo",
+                "html_attributions": []
+            },
+            "ida": 1490310000000,
+            "vuelta": 1490652000000,
+            "personas": 6,
+            "mates": [
+                {
+                    "id": "1",
+                    "role": "admin"
+                }, {
+                    "id": "2",
+                    "role": "view"
+                }, {
+                    "id": "3",
+                    "role": "edit"
+                }
+            ],
+            "activities": [
+                {
+                    "start": 1490346000000,
+                    "end": 1490355000000,
+                    "name": "Test 1",
+                    "color": "#FF1744"
+                }, {
+                    "start": 1490361300000,
+                    "end": 1490371200000,
+                    "name": "Test 2",
+                    "description": "haisdh iasdf shduifs sdfjhdjfkhsd",
+                    "color": "#D500F9"
+                }, {
+                    "start": 1490450400000,
+                    "end": 1490461200000,
+                    "name": "Test",
+                    "description": "hjia sda sdguiahsd gashdg",
+                    "color": "#FF1744"
+                }, {
+                    "start": 1490587200000,
+                    "end": 1490599800000,
+                    "name": "Cosa",
+                    "color": "#3D5AFE"
+                }, {
+                    "start": 1490620500000,
+                    "end": 1490630400000,
+                    "name": "Hola",
+                    "description": "ahsjd fas dgasgd ahihksdv 89q qfj",
+                    "color": "#2979FF"
+                }, {
+                    "start": 1490630400000,
+                    "end": 1490652000000,
+                    "name": "Caca",
+                    "color": "#00E5FF"
+                }, {
+                    "start": 1490655600000,
+                    "end": 1490738400000,
+                    "name": "Fin",
+                    "color": "#FFEA00"
+                }
+            ]
+        }
+    ],
+    "users": [
+        {
+            "name": "Jose",
+            "id": "1",
+            "avatar": "/images/rana.jpg"
+        }, {
+            "name": "Isma",
+            "id": "2",
+            "avatar": "http://www.cerotec.net/aplicaciones/pizarra/data/foto/por-que-los-gatos-ronronean.jpg"
+        }, {
+            "name": "Ruben",
+            "id": "3",
+            "avatar": "/images/gato.jpg"
+        }, {
+            "name": "Adri",
+            "id": "4",
+            "avatar": "/images/serpiente.jpg"
+        }, {
+            "name": "Alex",
+            "id": "5",
+            "avatar": "http://www.loboswiki.com/Imagenes/reproduccion-y-cria-de-los-lobos.jpg"
+        }
+    ]
+}
