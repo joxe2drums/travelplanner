@@ -1,0 +1,136 @@
+<link rel="import" href="/bower_components/paper-card/paper-card.html">
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/bower_components/iron-icons/social-icons.html">
+<link rel="import" href="/src/flex-styles.html">
+
+<dom-module id="travel-friend" include="flex-styles">
+    <template>
+
+        <style is="custom-style">
+            #accountImage {
+                display: none;
+                box-sizing: border-box;
+                border-radius: 50%;
+            }
+            
+            #accountIcon {
+                color: #424242;
+            }
+            
+            paper-card {
+                /*                @apply(--layout-horizontal);*/
+                /*                margin: 24px;*/
+                border-radius: 5px;
+                overflow: hidden;
+                
+                --paper-card-header-color: #fff;
+                --paper-card-header-image-text {
+                    text-shadow: 0 0 5px #000;
+                }
+            }
+            
+            #friendAavatar {
+                width: 170px;
+                height: 120px;
+            }
+            
+            .friend-content {
+                @apply(--layout-flex);
+                float: right;
+            }
+            
+            .friend-name {
+                @apply(--paper-font-headline);
+            }
+            
+            .friend-trips {
+                color: var(--paper-grey-600);
+                margin: 10px 0;
+            }
+            
+            iron-image {
+                display: none
+            }
+            /*
+            paper-icon-button {
+                float: right;
+            }
+*/
+
+        </style>
+
+        <!-- Template -->
+        <!--
+        <paper-card class="friend">
+            <div id="friendAavatar"></div>
+            <div class="friend-content">
+                <div class="card-content">
+                    <div class="friend-name">[[name]]</div>
+                    <div class="friend-trips">[[computedTrips]]</div>
+                </div>
+            </div>
+        </paper-card>
+-->
+
+        <paper-card heading="[[name]]" image="[[avatar]]" class="white">
+            <div class="card-content">
+                [[computedTrips]]
+            </div>
+            <div class="card-actions">
+                <paper-icon-button src="/icons/ic_add_travel.svg"></paper-icon-button>
+                <paper-icon-button icon="delete"></paper-icon-button>
+            </div>
+        </paper-card>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'travel-friend',
+
+            properties: {
+                avatar: String,
+                name: String,
+                trips: Number,
+                computedTrips: {
+                    type: String,
+                    computed: '_computedTrips(trips)'
+                }
+            },
+
+            attached: function() {
+
+            },
+
+            observers: [
+                '_avatarChanged(avatar)'
+            ],
+
+            behaviors: [
+                //                Polymer.BehaviorName
+            ],
+
+            _computedTrips: function(trips) {
+                return this.trips + " " + (this.trips == 1 ? "viaje" : "viajes") + " " + "juntos";
+            },
+
+            _avatarChanged: function(avatar) {
+                //                if (avatar) {
+                //                    this.$.friendAavatar.style.background = 'url(' + avatar + ')';
+                //                    this.$.friendAavatar.style.display = 'inline-block';
+                //                    this.$.friendAavatar.style.backgroundSize = "cover";
+                //                    this.$.friendAavatar.style.backgroundRepeat = "no-repeat";
+                //                    this.$.friendAavatar.style.backgroundPosition = "center";
+                //                    //                    this.$.accountIcon.style.display = 'none';
+                //                } else {
+                //                    //                    this.$.accountImage.style.display = 'none';
+                //                    //                    this.$.accountIcon.style.display = 'inline-block';
+                //                }
+            },
+
+        });
+
+    </script>
+</dom-module>

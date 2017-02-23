@@ -12,7 +12,8 @@
     "iron-validator-behavior": "PolymerElements/iron-validator-behavior#^1.0.1",
     "paper-fab": "PolymerElements/paper-fab#^1.2.1",
     "paper-drawer-panel": "PolymerElements/paper-drawer-panel#^1.0.11",
-    "paper-tabs": "PolymerElements/paper-tabs#^1.8.0"
+    "paper-tabs": "PolymerElements/paper-tabs#^1.8.0",
+    "paper-card": "PolymerElements/paper-card#^1.1.4"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
